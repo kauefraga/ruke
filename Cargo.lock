@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "rufile"
+name = "ruke"
 version = "0.1.0"
