@@ -1,10 +1,9 @@
-[package]
-name = "ruke"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+default-members = ["crates/ruke_cli"]
+
+[workspace.package]
 authors = ["Kauê Fraga Rodrigues"]
-description = "A dead-simple automation tool. Inspired by GNU Make."
 license = "MIT"
 repository = "https://github.com/kauefraga/ruke"
-
-[dependencies]

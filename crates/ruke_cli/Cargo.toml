@@ -1,0 +1,11 @@
+[package]
+name = "ruke_cli"
+version = "0.1.0"
+edition = "2021"
+description = "A dead-simple automation tool."
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+ruke_core = { path = "../ruke_core" }
