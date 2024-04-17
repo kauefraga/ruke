@@ -17,7 +17,7 @@
 
 **Pre-requisites**: Rust and Cargo.
 
-### How to install
+### Installation
 
 Using Cargo, run:
 
@@ -36,6 +36,17 @@ cargo install ruke
 —— ruke_cli/ - interface (binary)
 —— ruke_core/ - business logic (library)
 ```
+
+## 💖 Contributing
+
+Feel free to fork it, make a change and open a pull request. Same for issues, suggest an API change, an improvement, a feature or report a bug.
+
+### How to contribute
+
+1. Fork this repository
+2. Clone your fork on your machine
+3. Make your changes, commit and push these
+4. Open a pull request (write a descriptive message about what you changed)
 
 ## 📝 License
 
