@@ -8,4 +8,4 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
-ruke_core = { path = "../ruke_core" }
+ruke_core = { path = "../ruke_core", version = "*" }
