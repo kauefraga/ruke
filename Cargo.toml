@@ -1,9 +1,9 @@
-[workspace]
-resolver = "2"
-members = ["crates/*"]
-default-members = ["crates/ruke_cli"]
-
-[workspace.package]
+[package]
+name = "ruke"
+version = "0.1.0"
+edition = "2021"
 authors = ["Kauê Fraga Rodrigues"]
 license = "MIT"
 repository = "https://github.com/kauefraga/ruke"
+
+[dependencies]
