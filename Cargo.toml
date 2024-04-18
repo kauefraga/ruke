@@ -8,3 +8,5 @@ repository = "https://github.com/kauefraga/ruke"
 
 [dependencies]
 clap = "4.5.4"
+serde = { version = "1.0.198", features = ["derive"] }
+toml = "0.8.12"
