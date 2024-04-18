@@ -2,14 +2,35 @@ mod args;
 mod flags;
 
 fn main() {
-    let args = args::get_arguments();
+    let arguments = args::get_arguments();
 
-    match args {
-        Some(args) => {
-            match args[0].as_str() {
-                "--help" | "-h" => flags::show_help(),
-                "--version" | "-v" => flags::show_version(),
-                arg => println!("target: {}", arg)
+    match arguments {
+        Some(arguments) => {
+            let flags = flags::get_flags(&arguments);
+
+            match flags {
+                Some(flags) => {
+                    for flag in flags {
+                        // todo: shorthand -h
+                        if flag.name.contains("help") {
+                            flags::show_help();
+                            continue;
+                        }
+
+                        // todo: shorthand -v
+                        if flag.name.contains("version") {
+                            flags::show_version();
+                            continue;
+                        }
+
+                        println!(
+                            "Name: {}, value: {:?}",
+                            flag.name,
+                            flag.value
+                        )
+                    }
+                },
+                None => println!("no flags")
             }
         },
         None => {
