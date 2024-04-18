@@ -5,15 +5,15 @@
 ![GitHub's license](https://img.shields.io/github/license/kauefraga/ruke)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kauefraga/ruke/main)
 
-> A dead-simple automation tool.
+> A dead-simple automation tool. Inspired by Makefile and Justfile.
 
 ## 🔑 Key Features
 
 - Fancy interface: clear instructions and colored texts are what you get.
-- Lightning speed: written in Rust, so when you run it, it looks like a rocket.
-- Easy to use: configure your scripts using TOML and leave the rest to Ruke.
+- Lightning speed: written in Rust, when you run it, it looks like a rocket.
+- Easy to use: unlike other command runners, Ruke use TOML so you don't need to learn a new language.
 
-## 🛠 Getting Started
+## 🛠 Usage
 
 **Pre-requisites**: Rust and Cargo.
 
@@ -25,7 +25,25 @@ Using Cargo, run:
 cargo install ruke
 ```
 
-### Usage
+### Getting Started
+
+First things first, define your scripts in a Ruke.toml
+
+```toml
+[[tasks]]
+name = "main"
+command = "pnpm dev"
+args = "--port 3333"
+env = ""
+```
+
+Now, to run the `main` script
+
+```bash
+ruke
+```
+
+Yeah, it is that simple!
 
 ## 🧱 Project Structure
 
