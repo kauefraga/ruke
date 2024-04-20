@@ -32,7 +32,7 @@ cargo install ruke
 
 First things first, define your tasks in a `Ruke.toml`.
 
-**Recommended**: place it in the root of your project.
+**Recommendation**: place it in the root of your project.
 
 ```toml
 [[tasks]]
@@ -41,7 +41,7 @@ command = "pnpm start"
 arguments = ["--port 3333"]
 ```
 
-Now, to run the `main` recipe
+Now, to run the `main` task
 
 ```bash
 ruke
