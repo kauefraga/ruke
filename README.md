@@ -11,7 +11,7 @@
 
 - Fancy interface: good experience, clear instructions and colored texts are what you get.
 - Lightning speed: written in Rust, when you run it, it looks like a rocket.
-- Easy to use: unlike other command runners, Ruke uses TOML so you don't need to learn a new configuration language.
+- Easy configuration: unlike other command runners, Ruke uses TOML so you don't need to learn a new language.
 
 ## 🛠 Usage
 
