@@ -7,6 +7,9 @@
 
 > A dead-simple automation tool. Inspired by Makefile and Justfile.
 
+> [!TIP]
+> Looking for a Dockerfile/docker-compose.yml generator? [gorvus](https://github.com/FelipeMCassiano/gorvus) is waiting for you!
+
 ## 🔑 Key Features
 
 - Fancy interface: good experience, clear instructions and colored texts are what you get.
