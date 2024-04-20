@@ -1,21 +1,24 @@
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-pub struct Task {
+pub struct Recipe {
     pub name: String,
-    pub command: String
+    pub command: String,
+    pub arguments: Option<Vec<String>>
 }
 
-#[derive(Debug, Deserialize)]
-pub struct Tasks {
-    pub tasks: Vec<Task>
+#[derive(Deserialize)]
+pub struct Rukefile {
+    pub tasks: Vec<Recipe>
 }
 
-pub fn get_tasks(raw_toml: String) {
-    let tasks = toml::from_str::<Tasks>(&raw_toml);
+impl Rukefile {
+    pub fn from_str(raw: &str) -> Option<Rukefile> {
+        let rukefile = toml::from_str::<Rukefile>(raw);
 
-    match tasks {
-        Ok(tasks) => println!("{:?}", tasks),
-        Err(e) => eprintln!("{}", e)
+        match rukefile {
+            Ok(rukefile) => Some(rukefile),
+            Err(_) => None
+        }
     }
 }
