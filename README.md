@@ -9,9 +9,9 @@
 
 ## 🔑 Key Features
 
-- Fancy interface: clear instructions and colored texts are what you get.
+- Fancy interface: good experience, clear instructions and colored texts are what you get.
 - Lightning speed: written in Rust, when you run it, it looks like a rocket.
-- Easy to use: unlike other command runners, Ruke use TOML so you don't need to learn a new language.
+- Easy to use: unlike other command runners, Ruke uses TOML so you don't need to learn a new configuration language.
 
 ## 🛠 Usage
 
@@ -27,37 +27,82 @@ cargo install ruke
 
 ### Getting Started
 
-First things first, define your scripts in a Ruke.toml
+First things first, define your tasks in a `Ruke.toml`.
+
+**Recommended**: place it in the root of your project.
 
 ```toml
 [[tasks]]
 name = "main"
-command = "pnpm dev"
-args = "--port 3333"
-env = ""
+command = "pnpm start"
+arguments = ["--port 3333"]
 ```
 
-Now, to run the `main` script
+Now, to run the `main` recipe
 
 ```bash
 ruke
 ```
 
-Yeah, it is that simple!
+Yeah, it's that simple!
 
-## 🧱 Project Structure
+### Mastering the CLI
+
+Here's two tables that show existing arguments, flags and their default value.
+
+| Argument | Default |
+|----------|---------|
+| target   | main    |
+
+| Flag           | Default   |
+|----------------|-----------|
+| `-f` `--file`  | Ruke.toml |
+| `-q` `--quiet` | false     |
+
+#### Examples
+
+Root `Ruke.toml` and default target (named main)
 
 ```bash
-— ...
-— Cargo.toml - workspace config
-— crates/
-—— ruke_cli/ - interface (binary)
-—— ruke_core/ - business logic (library)
+ruke
+```
+
+Root `Ruke.toml` and non-default target
+
+```bash
+ruke target
+```
+
+Non-root `Ruke.toml`, silent and non-default target
+
+```bash
+ruke target --file path/to/Ruke.toml --quiet
+```
+
+### Mastering the Rukefile
+
+As long as you write a valid TOML, you can name the file whatever you want. That being said, I suggest you to use one of these two names: `Ruke.toml` or `Rukefile`.
+
+Look at [the full spec of TOML v1.0.0](https://toml.io/en/v1.0.0).
+
+```toml
+[[tasks]]                       # defines a task
+name = "main"                   # defines an unique name to the task
+command = "go run cmd/main.go"  # defines a command to be executed
+
+[[tasks]]                       # defines other task
+name = "dev"
+command = "pnpm dev"
+arguments = ["--watch"]         # specifies arguments to the command
+
+[[tasks]]                       # another one
+name = "build"
+command = "go build -o gorvus cmd/main.go"
 ```
 
 ## 💖 Contributing
 
-Feel free to fork it, make a change and open a pull request. Same for issues, suggest an API change, an improvement, a feature or report a bug.
+Feel free to contribute, create an issue to report a bug, suggest an API change, an improvement or a feature.
 
 ### How to contribute
 
