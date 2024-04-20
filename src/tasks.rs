@@ -2,7 +2,7 @@ use std::process::Command;
 
 use serde::Deserialize;
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Deserialize)]
 pub struct Recipe {
     pub name: String,
     pub command: String,
@@ -24,7 +24,7 @@ impl Rukefile {
             .iter()
             .find(|recipe| recipe.name.eq(&name));
 
-        return recipe.cloned();
+        recipe.cloned()
     }
 
     pub fn run_recipe(&self, name: String, quiet: bool) {
