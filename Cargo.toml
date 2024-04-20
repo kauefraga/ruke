@@ -2,6 +2,7 @@
 name = "ruke"
 version = "0.1.0"
 edition = "2021"
+description = "A dead-simple automation tool. Inspired by Makefile and Justfile."
 authors = ["Kauê Fraga Rodrigues"]
 license = "MIT"
 repository = "https://github.com/kauefraga/ruke"
