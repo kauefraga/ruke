@@ -113,13 +113,15 @@ impl Rukefile {
             .output()
             .expect("failed to execute command");
 
-        if output.status.success() && !quiet {
-            let stdout = String::from_utf8_lossy(&output.stdout);
-            println!("{}", stdout);
-        } else {
+        let is_succes_and_not_quiet = output.status.success() && !quiet;
+
+        if !is_succes_and_not_quiet {
             let stderr = String::from_utf8_lossy(&output.stderr);
             eprintln!("{}", stderr);
         }
+
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        println!("{}", stdout);
     }
 
     pub fn list_tasks(&self) {
