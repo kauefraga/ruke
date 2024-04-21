@@ -16,4 +16,5 @@ fn create_ruke_list_cmd() -> Command {
     Command::new("list")
         .about("List tasks in recipe")
         .arg(arg!(-a --all "List all tasks"))
+        .alias("ls")
 }
