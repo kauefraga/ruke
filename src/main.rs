@@ -1,6 +1,7 @@
 mod cli;
 mod tasks;
 
+use colorized::{Color, Colors};
 use tasks::{resolve_path, Rukefile};
 
 fn main() {
@@ -13,7 +14,7 @@ fn main() {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("rukefile not found");
+            eprintln!("{}", "rukefile not found".color(Colors::RedFg));
             return;
         }
     };
