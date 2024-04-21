@@ -84,6 +84,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 
 [[package]]
+name = "colorized"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "739281952453521b532f476b5f8b77c4b16d5ab2a248466c8dc153b3f85d6564"
+
+[[package]]
 name = "equivalent"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -134,6 +140,7 @@ name = "ruke"
 version = "0.1.2"
 dependencies = [
  "clap",
+ "colorized",
  "serde",
  "toml",
 ]
