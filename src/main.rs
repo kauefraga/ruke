@@ -21,21 +21,16 @@ fn main() {
 
     let rukefile = Rukefile::new(filepath);
 
-    match rukefile {
-        Ok(rukefile) => {
-            if let Some(list_matches) = matches.subcommand_matches("list") {
-                if *list_matches.get_one::<bool>("all").unwrap_or(&false) {
-                    rukefile.all_tasks();
-                    return;
-                }
-                rukefile.list_tasks();
-                return;
-            }
+    if let Err(e) = rukefile {
+        eprintln!("{:?}", e);
+        return;
+    }
 
-            rukefile.run_recipe(target.to_string(), *quiet)
-        }
-        Err(e) => {
-            eprintln!("{:?}", e);
-        }
+    let rukefile = rukefile.expect("Something went wrong :(");
+
+    match matches.subcommand() {
+        Some(("list", sub_matches)) => cli::list::list_handler(sub_matches, rukefile),
+        None => rukefile.run_recipe(target.to_string(), *quiet),
+        _ => unreachable!()
     }
 }

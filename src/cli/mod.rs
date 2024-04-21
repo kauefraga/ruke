@@ -1,4 +1,4 @@
-mod subcommands;
+pub mod list;
 
 use clap::{arg, ArgMatches, Command};
 
@@ -10,7 +10,7 @@ pub fn get_matches() -> ArgMatches {
         .arg(arg!([target] "Set the target task").default_value("main"))
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .arg(arg!(-q --quiet "Set run to be silent"))
-        .subcommand(subcommands::list());
+        .subcommand(list::list_command());
 
     cli.get_matches()
 }
