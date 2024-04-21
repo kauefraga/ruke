@@ -6,9 +6,9 @@ use std::{
 };
 
 use colorized::{Color, Colors};
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 
-#[derive(Clone, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Recipe {
     pub name: String,
     pub command: String,
@@ -32,7 +32,7 @@ impl fmt::Display for Recipe {
     }
 }
 
-#[derive(Clone, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Rukefile {
     pub tasks: Vec<Recipe>,
 }
