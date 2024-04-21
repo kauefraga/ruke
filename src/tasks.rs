@@ -113,9 +113,9 @@ impl Rukefile {
             .output()
             .expect("failed to execute command");
 
-        let is_succes_and_not_quiet = output.status.success() && !quiet;
+        let is_success_and_not_quiet = output.status.success() && !quiet;
 
-        if !is_succes_and_not_quiet {
+        if !is_success_and_not_quiet {
             let stderr = String::from_utf8_lossy(&output.stderr);
             eprintln!("{}", stderr);
         }
