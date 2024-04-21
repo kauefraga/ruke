@@ -12,6 +12,7 @@ pub fn get_matches() -> ArgMatches {
 
     cli.get_matches()
 }
+
 fn create_ruke_list_cmd() -> Command {
     Command::new("list")
         .about("List tasks in recipe")

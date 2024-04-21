@@ -13,16 +13,17 @@ pub struct Recipe {
     pub command: String,
     pub arguments: Option<Vec<String>>,
 }
+
 impl fmt::Display for Recipe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let arguments = match &self.arguments {
             Some(args) => args.join(", "),
-            None => String::from("Not defined"),
+            None => String::from("not defined"),
         };
 
         write!(
             f,
-            "  name: {}\n  command: {}\n  arguments: {:?}\n",
+            "  name: {}\n  command: {}\n  arguments: {}\n",
             self.name, self.command, arguments
         )
     }
@@ -38,7 +39,7 @@ pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
         return Some(Path::new(path).to_path_buf());
     }
 
-    let possible_root_paths = vec!["ruke.toml", "Ruke.toml", "rukefile", "Rukefile"];
+    let possible_root_paths = ["ruke.toml", "Ruke.toml", "rukefile", "Rukefile"];
 
     let path = possible_root_paths.iter().find(|path| {
         let path = Path::new(path);
@@ -46,10 +47,7 @@ pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
         path.exists()
     });
 
-    match path {
-        Some(path) => Some(Path::new(path).to_path_buf()),
-        None => None,
-    }
+    path.map(|path| Path::new(path).to_path_buf())
 }
 
 #[derive(Debug)]
@@ -71,12 +69,12 @@ impl Rukefile {
                 let rukefile = toml::from_str::<Rukefile>(&raw_rukefile);
 
                 match rukefile {
-                    Ok(rukefile) => return Ok(rukefile),
-                    Err(e) => return Err(RukefileError::TomlError(e)),
+                    Ok(rukefile) => Ok(rukefile),
+                    Err(e) => Err(RukefileError::TomlError(e)),
                 }
             }
-            Err(e) => return Err(RukefileError::IoError(e)),
-        };
+            Err(e) => Err(RukefileError::IoError(e)),
+        }
     }
 
     fn find_recipe(&self, name: String) -> Option<Recipe> {
@@ -127,6 +125,7 @@ impl Rukefile {
             println!("  {}", t.name);
         }
     }
+
     pub fn all_tasks(&self) {
         println!("All tasks in recipe:");
 
