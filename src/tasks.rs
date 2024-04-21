@@ -5,6 +5,7 @@ use std::{
     process::Command,
 };
 
+use colorized::{Color, Colors};
 use serde::Deserialize;
 
 #[derive(Clone, Deserialize)]
@@ -18,13 +19,15 @@ impl fmt::Display for Recipe {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let arguments = match &self.arguments {
             Some(args) => args.join(", "),
-            None => String::from("not defined"),
+            None => String::from("not defined").color(Colors::YellowFg),
         };
 
         write!(
             f,
-            "  name: {}\n  command: {}\n  arguments: {}\n",
-            self.name, self.command, arguments
+            "> {}\ncommand: {}\narguments: {}\n",
+            self.name.color(Colors::GreenFg),
+            self.command.color(Colors::GreenFg),
+            arguments.color(Colors::GreenFg)
         )
     }
 }
@@ -87,7 +90,7 @@ impl Rukefile {
         let recipe = match self.find_recipe(name) {
             Some(recipe) => recipe,
             None => {
-                eprintln!("recipe not found");
+                eprintln!("{}", "recipe not found".color(Colors::RedFg));
                 return;
             }
         };
@@ -120,15 +123,12 @@ impl Rukefile {
     }
 
     pub fn list_tasks(&self) {
-        println!("Tasks in recipe:");
         for t in self.tasks.iter() {
-            println!("  {}", t.name);
+            println!("{}", t.name.color(Colors::GreenFg));
         }
     }
 
     pub fn all_tasks(&self) {
-        println!("All tasks in recipe:");
-
         for t in self.tasks.iter() {
             println!("{}", t);
         }

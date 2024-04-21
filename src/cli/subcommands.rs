@@ -2,7 +2,7 @@ use clap::{arg, Command};
 
 pub fn list() -> Command {
     Command::new("list")
-        .about("List tasks in recipe")
-        .arg(arg!(-a --all "List all tasks"))
+        .about("List the name of existing tasks")
+        .arg(arg!(-a --all "Show all details of each task"))
         .alias("ls")
 }
