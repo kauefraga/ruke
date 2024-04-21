@@ -1,6 +1,8 @@
 mod cli;
 mod tasks;
 
+use std::process::exit;
+
 use tasks::{resolve_path, Rukefile};
 
 fn main() {
@@ -21,10 +23,20 @@ fn main() {
     let rukefile = Rukefile::new(filepath);
 
     match rukefile {
-        Ok(rukefile) => rukefile.run_recipe(target.to_string(), *quiet),
+        Ok(rukefile) => {
+            if let Some(list_matches) = matches.subcommand_matches("list") {
+                if *list_matches.get_one::<bool>("all").unwrap_or(&false) {
+                    rukefile.all_tasks();
+                    exit(0);
+                }
+                rukefile.list_tasks();
+                exit(0);
+            }
+
+            rukefile.run_recipe(target.to_string(), *quiet)
+        }
         Err(e) => {
             eprintln!("{:?}", e);
-            return;
-        },
+        }
     }
 }
