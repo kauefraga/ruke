@@ -22,32 +22,29 @@
 
 ### Installation
 
-Using Cargo, run:
-
 ```bash
 cargo install ruke
 ```
 
 ### Getting Started
 
-First things first, define your tasks in a `Ruke.toml`.
+First things first, you need to define your tasks in a `Ruke.toml` file.
 
-**Recommendation**: place it in the root of your project.
+Hopefully, Ruke can help you, just run
 
-```toml
-[[tasks]]
-name = "main"
-command = "pnpm start"
-arguments = ["--port 3333"]
+```bash
+ruke init
 ```
 
-Now, to run the `main` task
+With your `Ruke.toml` ready, now you need to run a specific task.
+
+The syntax for running a task is `ruke [target]` where target is the task you wanna execute.
 
 ```bash
 ruke
 ```
 
-Yeah, it's that simple!
+**Obs**.: the target task "main" is the default, therefore if you run `ruke`, it's the same as running `ruke main`.
 
 ### Mastering the CLI
 
