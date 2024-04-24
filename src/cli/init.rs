@@ -8,7 +8,7 @@ use crate::tasks::{path::resolve_path, Recipe, Rukefile};
 
 pub fn init_command() -> Command {
     Command::new("init")
-        .about("Init a Ruke.toml with an example task")
+        .about("Create a Ruke.toml file with a task within")
         .alias("i")
 }
 
