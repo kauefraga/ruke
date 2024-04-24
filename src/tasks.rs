@@ -1,12 +1,14 @@
 use core::fmt;
 use std::{
-    fs, io,
+    fs,
+    io::{self},
     path::{Path, PathBuf},
     process::Command,
 };
+use toml::ser::Error;
 
 use colorized::{Color, Colors};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Recipe {
@@ -80,6 +82,13 @@ impl Rukefile {
         }
     }
 
+    pub fn update_rukefile(&self, filepath: PathBuf) -> Result<(), Error> {
+        let serialized = toml::to_string(self)?;
+
+        fs::write(filepath, serialized).unwrap();
+        Ok(())
+    }
+
     fn find_recipe(&self, name: String) -> Option<Recipe> {
         let recipe = self.tasks.iter().find(|recipe| recipe.name.eq(&name));
 
@@ -134,5 +143,14 @@ impl Rukefile {
         for t in self.tasks.iter() {
             println!("{}", t);
         }
+    }
+
+    pub fn add_task(&mut self, name: String, command: String) {
+        let task = Recipe {
+            name,
+            command,
+            arguments: None,
+        };
+        self.tasks.push(task);
     }
 }
