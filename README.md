@@ -38,7 +38,7 @@ ruke init
 
 With your `Ruke.toml` ready, now you need to run a specific task.
 
-The syntax for running a task is `ruke [target]` where target is the task you wanna execute.
+The syntax for running a task is `ruke [target]` where target is the task you wanna execute. Try this:
 
 ```bash
 ruke
@@ -48,40 +48,34 @@ ruke
 
 ### Mastering the CLI
 
-Here's two tables that show existing arguments, flags and their default value.
+###### Available commands
 
-| Argument | Default |
-|----------|---------|
-| target   | main    |
+- `ruke init` - Create a `Ruke.toml` file with a task within
+- `ruke list` - List the name of existing tasks
+- `ruke add` - Add a new task
+- `ruke [target]` - Run a specific task
 
-| Flag           | Default   |
-|----------------|-----------|
-| `-f` `--file`  | Ruke.toml |
-| `-q` `--quiet` | false     |
+###### Aliases
 
-#### Examples
+- `ruke init`, `ruke i`
+- `ruke list`, `ruke ls`
+- `ruke add`, `ruke a`
 
-Root `Ruke.toml` and default target (named main)
+###### Arguments and flags
 
-```bash
-ruke
-```
+`ruke init` doesn't have arguments or flags.
 
-Root `Ruke.toml` and non-default target
+`ruke list` has the flags `-a --all` and `-f --file <FILE>`.
 
-```bash
-ruke target
-```
+`ruke add` has the flags `-n --name <NAME>`, `-c --command <COMMAND>` and `-f --file <FILE>`.
 
-Non-root `Ruke.toml`, silent and non-default target
+`ruke` has the optional argument `[target]` and the flags `-q --quiet` and `-f --file <FILE>`
 
-```bash
-ruke target --file path/to/Ruke.toml --quiet
-```
+If you run `ruke --help` you'll see nice guide, and if you want help for a specific command, try `ruke help [command]`.
 
 ### Mastering the Rukefile
 
-As long as you write a valid TOML, you can name the file whatever you want. That being said, I suggest you to use one of these two names: `Ruke.toml` or `Rukefile`.
+I suggest you to use one of these two names: `Ruke.toml` or `Rukefile`, however, as long as you write a valid TOML, you can name the file whatever you want and pass it with the `-f --file <FILE>` flag.
 
 Look at [the full spec of TOML v1.0.0](https://toml.io/en/v1.0.0).
 
