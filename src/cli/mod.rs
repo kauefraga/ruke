@@ -1,8 +1,9 @@
+pub mod add;
 pub mod init;
 pub mod list;
 
-use colorized::{Color, Colors};
 use clap::{arg, ArgMatches, Command};
+use colorized::{Color, Colors};
 
 use crate::tasks::{resolve_path, Rukefile};
 
@@ -16,6 +17,7 @@ pub fn root_command() -> Command {
         .arg(arg!(-q --quiet "Set run to be silent"))
         .subcommand(init::init_command())
         .subcommand(list::list_command())
+        .subcommand(add::add_command())
 }
 
 pub fn root_handler(matches: ArgMatches) {
