@@ -1,9 +1,8 @@
+pub mod path;
+
 use core::fmt;
 use std::{
-    fs,
-    io::{self},
-    path::{Path, PathBuf},
-    process::Command,
+    fs, io, path::PathBuf, process::Command
 };
 use toml::ser::Error;
 
@@ -37,22 +36,6 @@ impl fmt::Display for Recipe {
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Rukefile {
     pub tasks: Vec<Recipe>,
-}
-
-pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
-    if let Some(path) = path {
-        return Some(Path::new(path).to_path_buf());
-    }
-
-    let possible_root_paths = ["ruke.toml", "Ruke.toml", "rukefile", "Rukefile"];
-
-    let path = possible_root_paths.iter().find(|path| {
-        let path = Path::new(path);
-
-        path.exists()
-    });
-
-    path.map(|path| Path::new(path).to_path_buf())
 }
 
 #[derive(Debug)]

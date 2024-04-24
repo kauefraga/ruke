@@ -4,7 +4,7 @@ use clap::{Command, ArgMatches};
 use colorized::{Color, Colors};
 use serde::Serialize;
 
-use crate::tasks::{resolve_path, Recipe, Rukefile};
+use crate::tasks::{path::resolve_path, Recipe, Rukefile};
 
 pub fn init_command() -> Command {
     Command::new("init")

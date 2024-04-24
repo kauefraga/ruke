@@ -1,6 +1,6 @@
 use clap::{arg, ArgAction, ArgMatches, Command};
 
-use crate::tasks::{resolve_path, Rukefile};
+use crate::tasks::{path::resolve_path, Rukefile};
 use colorized::{Color, Colors};
 
 pub fn add_command() -> Command {

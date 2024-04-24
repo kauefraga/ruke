@@ -1,7 +1,7 @@
 use clap::{arg, ArgMatches, Command};
 use colorized::{Color, Colors};
 
-use crate::tasks::{resolve_path, Rukefile};
+use crate::tasks::{path::resolve_path, Rukefile};
 
 pub fn list_command() -> Command {
     Command::new("list")
