@@ -38,9 +38,13 @@ pub fn add_handler(matches: &ArgMatches) {
     if let Some(name) = task_name {
         if let Some(cmd) = command {
             {
-                rukefile.add_task(name.to_string(), cmd.to_string());
+                if let Err(e) = rukefile.add_task(name.to_string(), cmd.to_string()) {
+                    eprintln!("{} {}", name.color(Colors::RedFg), e.color(Colors::RedFg));
+                    return;
+                };
                 if let Err(e) = rukefile.update_rukefile(filepath) {
                     eprintln!("{:?}", e);
+                    return;
                 }
             };
         }

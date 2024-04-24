@@ -145,12 +145,19 @@ impl Rukefile {
         }
     }
 
-    pub fn add_task(&mut self, name: String, command: String) {
+    pub fn add_task(&mut self, name: String, command: String) -> Result<(), &'static str> {
+        for in_tasks in &self.tasks {
+            if in_tasks.name == name {
+                return Err("conflicting with a task with same name");
+            }
+        }
+
         let task = Recipe {
             name,
             command,
             arguments: None,
         };
         self.tasks.push(task);
+        Ok(())
     }
 }
