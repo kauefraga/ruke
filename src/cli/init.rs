@@ -1,6 +1,6 @@
 use std::fs;
 
-use clap::{Command, ArgMatches};
+use clap::{ArgMatches, Command};
 use colorized::{Color, Colors};
 use serde::Serialize;
 
@@ -21,16 +21,18 @@ pub fn init_handler(_matches: &ArgMatches) {
     let example_recipe = Recipe {
         name: "main".to_string(),
         command: "echo Hello, Ruke!".to_string(),
-        arguments: None
+        arguments: None,
     };
 
     let rukefile = Rukefile {
-        tasks: vec![example_recipe]
+        tasks: vec![example_recipe],
     };
 
     let mut rukefile_toml = String::new();
 
-    rukefile.serialize(toml::Serializer::new(&mut rukefile_toml)).unwrap();
+    rukefile
+        .serialize(toml::Serializer::new(&mut rukefile_toml))
+        .unwrap();
 
     fs::write("Ruke.toml", &rukefile_toml).unwrap();
 

@@ -1,9 +1,7 @@
 pub mod path;
 
 use core::fmt;
-use std::{
-    fs, io, path::PathBuf, process::Command
-};
+use std::{fs, io, path::PathBuf, process::Command};
 use toml::ser::Error;
 
 use colorized::{Color, Colors};
