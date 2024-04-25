@@ -1,5 +1,8 @@
 pub mod path;
 
+use std::cell::RefCell;
+use std::rc::Rc;
+
 use core::fmt;
 use std::{fs, io, path::PathBuf, process::Command};
 use toml::ser::Error;
@@ -28,6 +31,79 @@ impl fmt::Display for Recipe {
             self.command.color(Colors::GreenFg),
             arguments.color(Colors::GreenFg)
         )
+    }
+}
+pub struct Node {
+    pub recipe: Recipe,
+    pub left: Option<Rc<RefCell<Node>>>,
+    pub right: Option<Rc<RefCell<Node>>>,
+}
+
+impl Node {
+    pub fn new(recipe: Recipe) -> Self {
+        Node {
+            recipe,
+            left: None,
+            right: None,
+        }
+    }
+}
+
+pub struct BinaryTree {
+    pub root: Option<Rc<RefCell<Node>>>,
+}
+
+impl BinaryTree {
+    pub fn new(tasks: &[Recipe]) -> Self {
+        let mut tree = BinaryTree { root: None };
+        for recipe in tasks {
+            tree.insert(recipe.clone());
+        }
+        tree
+    }
+
+    pub fn insert(&mut self, recipe: Recipe) {
+        let node = self.root.clone();
+        self.root = BinaryTree::insert_node(node, recipe);
+    }
+
+    fn insert_node(node: Option<Rc<RefCell<Node>>>, recipe: Recipe) -> Option<Rc<RefCell<Node>>> {
+        match node {
+            None => Some(Rc::new(RefCell::new(Node::new(recipe)))),
+            Some(n) => {
+                let mut n_borrowed = n.borrow_mut();
+                match recipe.name < n_borrowed.recipe.name {
+                    true => {
+                        let left = n_borrowed.left.clone();
+                        n_borrowed.left = BinaryTree::insert_node(left, recipe);
+                    }
+                    false => {
+                        let right = n_borrowed.right.clone();
+                        n_borrowed.right = BinaryTree::insert_node(right, recipe);
+                    }
+                }
+                Some(n.clone())
+            }
+        }
+    }
+    pub fn search<'a>(&'a self, name: &'a String) -> Option<Recipe> {
+        BinaryTree::search_node(self.root.as_ref(), name)
+    }
+
+    fn search_node<'a>(node: Option<&'a Rc<RefCell<Node>>>, name: &'a String) -> Option<Recipe> {
+        match node {
+            Some(n) => {
+                let n_borrowed = n.borrow();
+                if *name == n_borrowed.recipe.name {
+                    Some(n_borrowed.recipe.clone())
+                } else if name < &n_borrowed.recipe.name {
+                    BinaryTree::search_node(n_borrowed.left.as_ref(), name)
+                } else {
+                    BinaryTree::search_node(n_borrowed.right.as_ref(), name)
+                }
+            }
+            None => None,
+        }
     }
 }
 
@@ -126,19 +202,12 @@ impl Rukefile {
         }
     }
 
-    pub fn add_task(&mut self, name: String, command: String) -> Result<(), &'static str> {
-        for in_tasks in &self.tasks {
-            if in_tasks.name == name {
-                return Err("conflicting with a task with same name");
-            }
-        }
-
+    pub fn add_task(&mut self, name: String, command: String) {
         let task = Recipe {
             name,
             command,
             arguments: None,
         };
         self.tasks.push(task);
-        Ok(())
     }
 }

@@ -1,6 +1,6 @@
 use clap::{arg, ArgAction, ArgMatches, Command};
 
-use crate::tasks::{path::resolve_path, Rukefile};
+use crate::tasks::{path::resolve_path, BinaryTree, Rukefile};
 use colorized::{Color, Colors};
 
 pub fn add_command() -> Command {
@@ -11,7 +11,6 @@ pub fn add_command() -> Command {
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .alias("a")
 }
-
 pub fn add_handler(matches: &ArgMatches) {
     let filepath = matches.get_one::<String>("file");
 
@@ -35,13 +34,21 @@ pub fn add_handler(matches: &ArgMatches) {
 
     let mut rukefile = rukefile.unwrap();
 
+    let tree = BinaryTree::new(&rukefile.tasks);
+
     if let Some(name) = task_name {
         if let Some(cmd) = command {
             {
-                if let Err(e) = rukefile.add_task(name.to_string(), cmd.to_string()) {
-                    eprintln!("{} {}", name.color(Colors::RedFg), e.color(Colors::RedFg));
+                if let Some(recipe) = tree.search(name) {
+                    eprintln!(
+                        "{} {}",
+                        recipe.name.color(Colors::RedFg),
+                        "conflicting with same name".color(Colors::RedFg)
+                    );
                     return;
-                };
+                }
+                rukefile.add_task(name.to_string(), cmd.to_string());
+
                 if let Err(e) = rukefile.update_rukefile(filepath) {
                     eprintln!("{:?}", e);
                     return;
@@ -49,5 +56,6 @@ pub fn add_handler(matches: &ArgMatches) {
             };
         }
     }
+
     println!("{}", "Task added successfully!".color(Colors::GreenFg));
 }
