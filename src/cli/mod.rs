@@ -6,7 +6,7 @@ pub mod remove;
 use clap::{arg, ArgMatches, Command};
 use colorized::{Color, Colors};
 
-use crate::tasks::{path::resolve_path, Rukefile};
+use crate::tasks::{path::resolve_path, runner, Rukefile};
 
 pub fn root_command() -> Command {
     Command::new("ruke")
@@ -44,5 +44,13 @@ pub fn root_handler(matches: ArgMatches) {
 
     let rukefile = rukefile.unwrap();
 
-    rukefile.run_task(target.to_string(), *quiet)
+    let task = rukefile.find_task(target.clone());
+
+    match task {
+        Some(task) => runner::run_task(task, *quiet),
+        None => eprintln!(
+            "{}",
+            format!(r#"There is no "{}" task to run"#, target).color(Colors::RedFg)
+        ),
+    }
 }

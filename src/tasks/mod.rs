@@ -1,7 +1,8 @@
 pub mod path;
+pub mod runner;
 
 use core::fmt;
-use std::{fs, path::PathBuf, process::Command};
+use std::{fs, path::PathBuf};
 use toml::ser::Error;
 
 use colorized::{Color, Colors};
@@ -60,48 +61,10 @@ impl Rukefile {
         Ok(())
     }
 
-    fn find_task(&self, name: String) -> Option<Task> {
+    pub fn find_task(&self, name: String) -> Option<Task> {
         let task = self.tasks.iter().find(|task| task.name.eq(&name));
 
         task.cloned()
-    }
-
-    pub fn run_task(&self, name: String, quiet: bool) {
-        let task = match self.find_task(name) {
-            Some(task) => task,
-            None => {
-                eprintln!("{}", "task not found".color(Colors::RedFg));
-                return;
-            }
-        };
-
-        let command = task.command.split(' ').collect::<Vec<&str>>();
-
-        let positional_arguments = command[1..].iter().map(|argument| argument.to_string());
-
-        let arguments = match task.arguments {
-            Some(mut arguments) => {
-                positional_arguments.for_each(|argument| arguments.push(argument));
-
-                arguments
-            }
-            None => positional_arguments.collect::<Vec<String>>(),
-        };
-
-        let output = Command::new(command[0])
-            .args(arguments)
-            .output()
-            .expect("failed to execute command");
-
-        let is_success_and_not_quiet = output.status.success() && !quiet;
-
-        if !is_success_and_not_quiet {
-            let stderr = String::from_utf8_lossy(&output.stderr);
-            eprintln!("{}", stderr);
-        }
-
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        println!("{}", stdout);
     }
 
     pub fn list_tasks(&self) {
