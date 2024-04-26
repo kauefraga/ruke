@@ -67,18 +67,6 @@ impl Rukefile {
         task.cloned()
     }
 
-    pub fn list_tasks(&self) {
-        for t in self.tasks.iter() {
-            println!("{}", t.name.color(Colors::GreenFg));
-        }
-    }
-
-    pub fn all_tasks(&self) {
-        for t in self.tasks.iter() {
-            println!("{}", t);
-        }
-    }
-
     pub fn add_task(&mut self, name: String, command: String) -> Result<(), String> {
         for in_tasks in &self.tasks {
             if in_tasks.name == name {

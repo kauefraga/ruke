@@ -31,10 +31,12 @@ pub fn list_handler(matches: &ArgMatches) {
 
     let rukefile = rukefile.unwrap();
 
+    let tasks = rukefile.tasks.iter();
+
     if *matches.get_one::<bool>("all").unwrap_or(&false) {
-        rukefile.all_tasks();
+        tasks.for_each(|t| println!("{}", t));
         return;
     }
 
-    rukefile.list_tasks();
+    tasks.for_each(|t| println!("{}", t.name.color(Colors::GreenFg)));
 }
