@@ -24,7 +24,7 @@ pub fn remove_handler(matches: &ArgMatches) {
     let rukefile = Rukefile::new(filepath.clone());
 
     if let Err(e) = rukefile {
-        eprintln!("{:?}", e);
+        eprintln!("{}", e.color(Colors::RedFg));
         return;
     }
 

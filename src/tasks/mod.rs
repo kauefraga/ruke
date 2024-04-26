@@ -1,7 +1,7 @@
 pub mod path;
 
 use core::fmt;
-use std::{fs, io, path::PathBuf, process::Command};
+use std::{fs, path::PathBuf, process::Command};
 use toml::ser::Error;
 
 use colorized::{Color, Colors};
@@ -36,19 +36,9 @@ pub struct Rukefile {
     pub tasks: Vec<Task>,
 }
 
-#[derive(Debug)]
-pub enum RukefileError {
-    IoError(io::Error),
-    TomlError(toml::de::Error),
-}
-
 impl Rukefile {
-    pub fn new(path: PathBuf) -> Result<Self, RukefileError> {
+    pub fn new(path: PathBuf) -> Result<Self, String> {
         let raw_rukefile = fs::read_to_string(path);
-
-        if let Err(e) = raw_rukefile {
-            return Err(RukefileError::IoError(e));
-        }
 
         match raw_rukefile {
             Ok(raw_rukefile) => {
@@ -56,10 +46,10 @@ impl Rukefile {
 
                 match rukefile {
                     Ok(rukefile) => Ok(rukefile),
-                    Err(e) => Err(RukefileError::TomlError(e)),
+                    Err(e) => Err(format!("failed parsing TOML. Error: {}", e)),
                 }
             }
-            Err(e) => Err(RukefileError::IoError(e)),
+            Err(e) => Err(format!("failed reading file. Error: {}", e)),
         }
     }
 
@@ -126,10 +116,10 @@ impl Rukefile {
         }
     }
 
-    pub fn add_task(&mut self, name: String, command: String) -> Result<(), &'static str> {
+    pub fn add_task(&mut self, name: String, command: String) -> Result<(), String> {
         for in_tasks in &self.tasks {
             if in_tasks.name == name {
-                return Err("conflicting with a task with same name");
+                return Err("conflicting with a task with same name".to_string());
             }
         }
 
@@ -138,6 +128,7 @@ impl Rukefile {
             command,
             arguments: None,
         };
+
         self.tasks.push(task);
         Ok(())
     }
