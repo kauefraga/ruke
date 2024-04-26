@@ -8,13 +8,13 @@ use colorized::{Color, Colors};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize)]
-pub struct Recipe {
+pub struct Task {
     pub name: String,
     pub command: String,
     pub arguments: Option<Vec<String>>,
 }
 
-impl fmt::Display for Recipe {
+impl fmt::Display for Task {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let arguments = match &self.arguments {
             Some(args) => args.join(", "),
@@ -33,7 +33,7 @@ impl fmt::Display for Recipe {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Rukefile {
-    pub tasks: Vec<Recipe>,
+    pub tasks: Vec<Task>,
 }
 
 #[derive(Debug)]
@@ -70,26 +70,26 @@ impl Rukefile {
         Ok(())
     }
 
-    fn find_recipe(&self, name: String) -> Option<Recipe> {
-        let recipe = self.tasks.iter().find(|recipe| recipe.name.eq(&name));
+    fn find_task(&self, name: String) -> Option<Task> {
+        let task = self.tasks.iter().find(|task| task.name.eq(&name));
 
-        recipe.cloned()
+        task.cloned()
     }
 
-    pub fn run_recipe(&self, name: String, quiet: bool) {
-        let recipe = match self.find_recipe(name) {
-            Some(recipe) => recipe,
+    pub fn run_task(&self, name: String, quiet: bool) {
+        let task = match self.find_task(name) {
+            Some(task) => task,
             None => {
-                eprintln!("{}", "recipe not found".color(Colors::RedFg));
+                eprintln!("{}", "task not found".color(Colors::RedFg));
                 return;
             }
         };
 
-        let command = recipe.command.split(' ').collect::<Vec<&str>>();
+        let command = task.command.split(' ').collect::<Vec<&str>>();
 
         let positional_arguments = command[1..].iter().map(|argument| argument.to_string());
 
-        let arguments = match recipe.arguments {
+        let arguments = match task.arguments {
             Some(mut arguments) => {
                 positional_arguments.for_each(|argument| arguments.push(argument));
 
@@ -133,7 +133,7 @@ impl Rukefile {
             }
         }
 
-        let task = Recipe {
+        let task = Task {
             name,
             command,
             arguments: None,
@@ -144,7 +144,7 @@ impl Rukefile {
 
     pub fn remove_task(&mut self, name: String) -> Result<(), String> {
         let old_len = self.tasks.len();
-        self.tasks.retain(|recipe| recipe.name != name);
+        self.tasks.retain(|task| task.name != name);
         let new_len = self.tasks.len();
 
         if old_len == new_len {

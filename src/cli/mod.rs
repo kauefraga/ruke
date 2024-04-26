@@ -44,5 +44,5 @@ pub fn root_handler(matches: ArgMatches) {
 
     let rukefile = rukefile.unwrap();
 
-    rukefile.run_recipe(target.to_string(), *quiet)
+    rukefile.run_task(target.to_string(), *quiet)
 }

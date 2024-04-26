@@ -4,7 +4,7 @@ use clap::{ArgMatches, Command};
 use colorized::{Color, Colors};
 use serde::Serialize;
 
-use crate::tasks::{path::resolve_path, Recipe, Rukefile};
+use crate::tasks::{path::resolve_path, Rukefile, Task};
 
 pub fn init_command() -> Command {
     Command::new("init")
@@ -18,14 +18,14 @@ pub fn init_handler(_matches: &ArgMatches) {
         return;
     }
 
-    let example_recipe = Recipe {
+    let example_task = Task {
         name: "main".to_string(),
         command: "echo Hello, Ruke!".to_string(),
         arguments: None,
     };
 
     let rukefile = Rukefile {
-        tasks: vec![example_recipe],
+        tasks: vec![example_task],
     };
 
     let mut rukefile_toml = String::new();
