@@ -53,6 +53,7 @@ ruke
 - `ruke init` - Create a `Ruke.toml` file with a task within
 - `ruke list` - List the name of existing tasks
 - `ruke add` - Add a new task
+- `ruke remove` - Remove an existing task
 - `ruke [target]` - Run a specific task
 
 ###### Aliases
@@ -60,6 +61,7 @@ ruke
 - `ruke init`, `ruke i`
 - `ruke list`, `ruke ls`
 - `ruke add`, `ruke a`
+- `ruke remove`, `ruke rm`
 
 ###### Arguments and flags
 
@@ -69,7 +71,9 @@ ruke
 
 `ruke add` has the flags `-n --name <NAME>`, `-c --command <COMMAND>` and `-f --file <FILE>`.
 
-`ruke` has the optional argument `[target]` and the flags `-q --quiet` and `-f --file <FILE>`
+`ruke remove` has the flags `-n --name <NAME>` and `-f --file <FILE>`.
+
+`ruke` has the optional argument `[target]` and the flags `-q --quiet` and `-f --file <FILE>`.
 
 If you run `ruke --help` you'll see nice guide, and if you want help for a specific command, try `ruke help [command]`.
 

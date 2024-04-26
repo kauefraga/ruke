@@ -4,11 +4,12 @@ use clap::{arg, ArgMatches, Command};
 use colorized::{Color, Colors};
 pub fn remove_command() -> Command {
     Command::new("remove")
-        .about("Remove a existing task in recipe")
-        .arg(arg!(-n --name <NAME> "Task name to delete"))
+        .about("Remove an existing task")
+        .arg(arg!(-n --name <NAME> "Set the task name"))
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .alias("rm")
 }
+
 pub fn remove_handler(matches: &ArgMatches) {
     let filepath = matches.get_one::<String>("file");
 

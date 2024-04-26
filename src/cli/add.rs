@@ -6,8 +6,8 @@ use colorized::{Color, Colors};
 pub fn add_command() -> Command {
     Command::new("add")
         .about("Add a new task")
-        .arg(arg!(-n --name <NAME> "Sets task name"))
-        .arg(arg!(-c --command <COMMAND>"Set a command in a task").action(ArgAction::Append))
+        .arg(arg!(-n --name <NAME> "Set the task name"))
+        .arg(arg!(-c --command <COMMAND>"Set the task command").action(ArgAction::Append))
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .alias("a")
 }
