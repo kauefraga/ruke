@@ -141,4 +141,18 @@ impl Rukefile {
         self.tasks.push(task);
         Ok(())
     }
+
+    pub fn remove_task(&mut self, name: String) -> Result<(), String> {
+        let old_len = self.tasks.len();
+        self.tasks.retain(|recipe| recipe.name != name);
+        let new_len = self.tasks.len();
+
+        if old_len == new_len {
+            return Err(format!(
+                "Cannot remove '{}'. This task doesn't exist.",
+                name
+            ));
+        }
+        Ok(())
+    }
 }

@@ -1,6 +1,7 @@
 pub mod add;
 pub mod init;
 pub mod list;
+pub mod remove;
 
 use clap::{arg, ArgMatches, Command};
 use colorized::{Color, Colors};
@@ -18,6 +19,7 @@ pub fn root_command() -> Command {
         .subcommand(init::init_command())
         .subcommand(list::list_command())
         .subcommand(add::add_command())
+        .subcommand(remove::remove_command())
 }
 
 pub fn root_handler(matches: ArgMatches) {
