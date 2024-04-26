@@ -9,7 +9,7 @@ pub fn remove_command() -> Command {
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .alias("rm")
 }
-pub fn add_handler(matches: &ArgMatches) {
+pub fn remove_handler(matches: &ArgMatches) {
     let filepath = matches.get_one::<String>("file");
 
     let filepath = match resolve_path(filepath) {
