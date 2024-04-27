@@ -30,9 +30,9 @@ pub fn root_handler(matches: ArgMatches) {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("{}", "Rukefile not found".color(Colors::RedFg));
+            eprintln!("{}", "Ruke file not found.".color(Colors::RedFg));
             println!(
-                "Try `{}` or `{}`",
+                "Try `{}` or `{}`.",
                 "ruke init".color(Colors::BlueFg),
                 "ruke -h".color(Colors::BlueFg)
             );
@@ -55,7 +55,7 @@ pub fn root_handler(matches: ArgMatches) {
         Some(task) => runner::run_task(task, *quiet),
         None => eprintln!(
             "{}",
-            format!(r#"There is no "{}" task to run"#, target).color(Colors::RedFg)
+            format!(r#"There is no "{}" task to run."#, target).color(Colors::RedFg)
         ),
     }
 }

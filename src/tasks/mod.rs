@@ -47,10 +47,10 @@ impl Rukefile {
 
                 match rukefile {
                     Ok(rukefile) => Ok(rukefile),
-                    Err(e) => Err(format!("Failed parsing TOML. Error: {}", e)),
+                    Err(e) => Err(format!("Failed parsing TOML. Error: {}.", e)),
                 }
             }
-            Err(e) => Err(format!("Failed reading file. Error: {}", e)),
+            Err(e) => Err(format!("Failed reading file. Error: {}.", e)),
         }
     }
 

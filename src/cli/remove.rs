@@ -16,7 +16,7 @@ pub fn remove_handler(matches: &ArgMatches) {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("{}", "Rukefile not found".color(Colors::RedFg));
+            eprintln!("{}", "Ruke file not found.".color(Colors::RedFg));
             return;
         }
     };
