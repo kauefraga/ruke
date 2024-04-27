@@ -20,7 +20,7 @@ pub fn run_task(task: Task, quiet: bool) {
     let output = Command::new(command[0])
         .args(arguments)
         .output()
-        .expect("failed to execute command");
+        .expect("Failed to execute command");
 
     let is_success_and_not_quiet = output.status.success() && !quiet;
 

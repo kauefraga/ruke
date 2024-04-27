@@ -18,7 +18,7 @@ pub fn add_handler(matches: &ArgMatches) {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("{}", "rukefile not found".color(Colors::RedFg));
+            eprintln!("{}", "Rukefile not found".color(Colors::RedFg));
             return;
         }
     };
@@ -41,7 +41,7 @@ pub fn add_handler(matches: &ArgMatches) {
                 if let Err(e) = rukefile.add_task(name.to_string(), cmd.to_string()) {
                     eprintln!("{} {}", name.color(Colors::RedFg), e.color(Colors::RedFg));
                     return;
-                };
+                }
                 if let Err(e) = rukefile.update_rukefile(filepath) {
                     eprintln!("{:?}", e);
                     return;

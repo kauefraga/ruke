@@ -17,7 +17,7 @@ pub fn list_handler(matches: &ArgMatches) {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("{}", "rukefile not found".color(Colors::RedFg));
+            eprintln!("{}", "Rukefile not found".color(Colors::RedFg));
             return;
         }
     };

@@ -30,7 +30,12 @@ pub fn root_handler(matches: ArgMatches) {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("{}", "rukefile not found".color(Colors::RedFg));
+            eprintln!("{}", "Rukefile not found".color(Colors::RedFg));
+            println!(
+                "Try `{}` or `{}`",
+                "ruke init".color(Colors::BlueFg),
+                "ruke -h".color(Colors::BlueFg)
+            );
             return;
         }
     };

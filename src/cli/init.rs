@@ -14,7 +14,7 @@ pub fn init_command() -> Command {
 
 pub fn init_handler(_matches: &ArgMatches) {
     if resolve_path(None).is_some() {
-        println!("{}", "a ruke file already exists".color(Colors::YellowFg));
+        println!("{}", "A ruke file already exists".color(Colors::YellowFg));
         return;
     }
 
