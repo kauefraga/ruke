@@ -2,7 +2,6 @@ use std::fs;
 
 use clap::{ArgMatches, Command};
 use colorized::{Color, Colors};
-use serde::Serialize;
 
 use crate::tasks::{path::resolve_path, Rukefile, Task};
 
@@ -28,19 +27,15 @@ pub fn init_handler(_matches: &ArgMatches) {
         tasks: vec![example_task],
     };
 
-    let mut rukefile_toml = String::new();
+    let rukefile = toml::to_string(&rukefile).unwrap();
 
-    rukefile
-        .serialize(toml::Serializer::new(&mut rukefile_toml))
-        .unwrap();
-
-    fs::write("Ruke.toml", &rukefile_toml).unwrap();
+    fs::write("Ruke.toml", &rukefile).unwrap();
 
     println!(
         "Ruke.toml file {}!\n",
         "created successfully".color(Colors::GreenFg)
     );
-    println!("{}", &rukefile_toml);
+    println!("{}", &rukefile);
     println!(
         "Try `{}` and `{}`.\nHappy hacking!",
         "ruke list".color(Colors::BlueFg),
