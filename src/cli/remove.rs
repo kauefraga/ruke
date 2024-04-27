@@ -28,19 +28,26 @@ pub fn remove_handler(matches: &ArgMatches) {
         return;
     }
 
-    let task_name = matches.get_one::<String>("name");
-
     let mut rukefile = rukefile.unwrap();
 
-    if let Some(name) = task_name {
-        if let Err(e) = rukefile.remove_task(name.to_string()) {
-            eprintln!("{}", e.color(Colors::RedFg));
-            return;
-        }
-        if let Err(e) = rukefile.update_rukefile(filepath) {
-            eprintln!("{:?}", e);
-            return;
-        }
+    let task_name = matches.get_one::<String>("name");
+
+    if task_name.is_none() {
+        eprintln!("{}", "The task must have a name.".color(Colors::RedFg));
+        println!("Try adding `{}`.", "--name task-name".color(Colors::BlueFg));
+        return;
+    }
+
+    let task_name = task_name.unwrap();
+
+    if let Err(e) = rukefile.remove_task(task_name.to_string()) {
+        eprintln!("{}", e.color(Colors::RedFg));
+        return;
+    }
+
+    if let Err(e) = rukefile.update_rukefile(filepath) {
+        eprintln!("{:?}", e);
+        return;
     }
 
     println!("{}", "Task removed successfully!".color(Colors::GreenFg));

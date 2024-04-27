@@ -30,18 +30,23 @@ pub fn add_handler(matches: &ArgMatches) {
         return;
     }
 
+    let mut rukefile = rukefile.unwrap();
+
     let task_name = matches.get_one::<String>("name");
     let task_command = matches.get_one::<String>("command");
 
-    let mut rukefile = rukefile.unwrap();
-
     if task_name.is_none() {
         eprintln!("{}", "The task must have a name.".color(Colors::RedFg));
+        println!("Try adding `{}`.", "--name task-name".color(Colors::BlueFg));
         return;
     }
 
     if task_command.is_none() {
         eprintln!("{}", "The task must have a command.".color(Colors::RedFg));
+        println!(
+            "Try adding `{}`.",
+            "--command 'task command and its arguments'".color(Colors::BlueFg)
+        );
         return;
     }
 

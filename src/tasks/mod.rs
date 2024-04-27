@@ -58,6 +58,7 @@ impl Rukefile {
         let serialized = toml::to_string(self)?;
 
         fs::write(filepath, serialized).unwrap();
+
         Ok(())
     }
 
@@ -99,10 +100,11 @@ impl Rukefile {
 
         if old_len == new_len {
             return Err(format!(
-                "Cannot remove '{}'. This task doesn't exist.",
+                r#"Cannot remove "{}". This task doesn't exist."#,
                 name
             ));
         }
+
         Ok(())
     }
 }
