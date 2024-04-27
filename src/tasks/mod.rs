@@ -47,10 +47,10 @@ impl Rukefile {
 
                 match rukefile {
                     Ok(rukefile) => Ok(rukefile),
-                    Err(e) => Err(format!("failed parsing TOML. Error: {}", e)),
+                    Err(e) => Err(format!("Failed parsing TOML. Error: {}", e)),
                 }
             }
-            Err(e) => Err(format!("failed reading file. Error: {}", e)),
+            Err(e) => Err(format!("Failed reading file. Error: {}", e)),
         }
     }
 
@@ -68,10 +68,18 @@ impl Rukefile {
     }
 
     pub fn add_task(&mut self, name: String, command: String) -> Result<(), String> {
-        for in_tasks in &self.tasks {
-            if in_tasks.name == name {
-                return Err("conflicting with a task with same name".to_string());
-            }
+        if name.trim().is_empty() {
+            return Err("The task name must not be empty.".to_string());
+        }
+
+        if command.trim().is_empty() {
+            return Err("The task name must not be empty.".to_string());
+        }
+
+        let task = self.find_task(name.clone());
+
+        if task.is_some() {
+            return Err("A task with the same name already exists.".to_string());
         }
 
         let task = Task {

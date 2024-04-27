@@ -31,23 +31,32 @@ pub fn add_handler(matches: &ArgMatches) {
     }
 
     let task_name = matches.get_one::<String>("name");
-    let command = matches.get_one::<String>("command");
+    let task_command = matches.get_one::<String>("command");
 
     let mut rukefile = rukefile.unwrap();
 
-    if let Some(name) = task_name {
-        if let Some(cmd) = command {
-            {
-                if let Err(e) = rukefile.add_task(name.to_string(), cmd.to_string()) {
-                    eprintln!("{} {}", name.color(Colors::RedFg), e.color(Colors::RedFg));
-                    return;
-                }
-                if let Err(e) = rukefile.update_rukefile(filepath) {
-                    eprintln!("{:?}", e);
-                    return;
-                }
-            };
-        }
+    if task_name.is_none() {
+        eprintln!("{}", "The task must have a name.".color(Colors::RedFg));
+        return;
     }
+
+    if task_command.is_none() {
+        eprintln!("{}", "The task must have a command.".color(Colors::RedFg));
+        return;
+    }
+
+    let task_name = task_name.unwrap();
+    let task_command = task_command.unwrap();
+
+    if let Err(e) = rukefile.add_task(task_name.to_string(), task_command.to_string()) {
+        eprintln!("{}", e.color(Colors::RedFg));
+        return;
+    }
+
+    if let Err(e) = rukefile.update_rukefile(filepath) {
+        eprintln!("{:?}", e);
+        return;
+    }
+
     println!("{}", "Task added successfully!".color(Colors::GreenFg));
 }
