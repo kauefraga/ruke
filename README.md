@@ -109,6 +109,13 @@ Feel free to contribute, create an issue to report a bug, suggest an API change,
 3. Make your changes, commit and push these
 4. Open a pull request (write a descriptive message about what you changed)
 
+### Contributors
+
+Thanks goes to these amazing people:
+
+[![notshwuy GitHub profile picture](https://github.com/notshwuy.png?size=50)](https://github.com/notshwuy)
+[![FelipeMCassiano GitHub profile picture](https://github.com/FelipeMCassiano.png?size=50)](https://github.com/FelipeMCassiano)
+
 ## 📝 License
 
 This project is licensed under the MIT License - See the [LICENSE](https://github.com/kauefraga/ruke/blob/main/LICENSE) for more information.
