@@ -1,9 +1,9 @@
 # Ruke
 
-![GitHub top language](https://img.shields.io/github/languages/top/kauefraga/ruke)
-![Crates.io Version](https://img.shields.io/crates/v/ruke)
-![GitHub's license](https://img.shields.io/github/license/kauefraga/ruke)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kauefraga/ruke/main)
+[![GitHub top language](https://img.shields.io/github/languages/top/kauefraga/ruke)](https://github.com/kauefraga/ruke)
+[![Crates.io Version](https://img.shields.io/crates/v/ruke)](https://crates.io/crates/ruke)
+[![GitHub's license](https://img.shields.io/github/license/kauefraga/ruke)](https://github.com/kauefraga/ruke/blob/main/LICENSE)
+[![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kauefraga/ruke/main)](https://github.com/kauefraga/ruke)
 
 > A dead-simple automation tool. Inspired by Makefile and Justfile.
 
