@@ -12,7 +12,7 @@ pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
     match path {
         Some(path) => Some(PathBuf::from(path)),
         None => {
-            let current_directory = env::current_dir().unwrap();
+            let current_directory = env::current_dir().ok()?;
             let mut path_ancestors = current_directory.ancestors();
 
             while let Some(path) = path_ancestors.next() {
