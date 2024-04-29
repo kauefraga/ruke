@@ -2,10 +2,17 @@ use std::{env, path::PathBuf};
 
 const RUKE_FILE_NAMES: [&str; 4] = ["ruke.toml", "Ruke.toml", "rukefile", "Rukefile"];
 
-pub fn resolve_file<'a>(root_path: &PathBuf) -> Option<&'a &'a str> {
-    RUKE_FILE_NAMES
-        .iter()
-        .find(|path| root_path.with_file_name(path).exists())
+fn resolve_file(root_path: PathBuf) -> Option<PathBuf> {
+    for file_name in RUKE_FILE_NAMES {
+        let mut root_path = root_path.clone();
+        root_path.push(file_name);
+
+        if root_path.exists() {
+            return Some(root_path);
+        }
+    }
+
+    None
 }
 
 pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
@@ -13,17 +20,17 @@ pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
         Some(path) => Some(PathBuf::from(path)),
         None => {
             let current_directory = env::current_dir().ok()?;
-            let mut path_ancestors = current_directory.ancestors();
+            let path_ancestors = current_directory.ancestors();
 
-            while let Some(path) = path_ancestors.next() {
+            for path in path_ancestors {
                 let path = path.to_path_buf();
 
-                if let Some(file_name) = resolve_file(&path) {
-                    return Some(path.with_file_name(file_name));
+                if let Some(resolved_file) = resolve_file(path) {
+                    return Some(resolved_file);
                 }
             }
 
-            return None;
+            None
         }
     }
 }
