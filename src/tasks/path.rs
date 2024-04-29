@@ -1,17 +1,29 @@
-use std::path::{Path, PathBuf};
+use std::{env, path::PathBuf};
+
+const RUKE_FILE_NAMES: [&str; 4] = ["ruke.toml", "Ruke.toml", "rukefile", "Rukefile"];
+
+pub fn resolve_file<'a>(root_path: &PathBuf) -> Option<&'a &'a str> {
+    RUKE_FILE_NAMES
+        .iter()
+        .find(|path| root_path.with_file_name(path).exists())
+}
 
 pub fn resolve_path(path: Option<&String>) -> Option<PathBuf> {
-    if let Some(path) = path {
-        return Some(Path::new(path).to_path_buf());
+    match path {
+        Some(path) => Some(PathBuf::from(path)),
+        None => {
+            let current_directory = env::current_dir().ok()?;
+            let mut path_ancestors = current_directory.ancestors();
+
+            while let Some(path) = path_ancestors.next() {
+                let path = path.to_path_buf();
+
+                if let Some(file_name) = resolve_file(&path) {
+                    return Some(path.with_file_name(file_name));
+                }
+            }
+
+            return None;
+        }
     }
-
-    let possible_root_paths = ["ruke.toml", "Ruke.toml", "rukefile", "Rukefile"];
-
-    let path = possible_root_paths.iter().find(|path| {
-        let path = Path::new(path);
-
-        path.exists()
-    });
-
-    path.map(|path| Path::new(path).to_path_buf())
 }
