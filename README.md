@@ -1,9 +1,9 @@
 # Ruke
 
-![GitHub top language](https://img.shields.io/github/languages/top/kauefraga/ruke)
-![Crates.io Version](https://img.shields.io/crates/v/ruke)
-![GitHub's license](https://img.shields.io/github/license/kauefraga/ruke)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kauefraga/ruke/main)
+[![GitHub top language](https://img.shields.io/github/languages/top/kauefraga/ruke)](https://github.com/kauefraga/ruke)
+[![Crates.io Version](https://img.shields.io/crates/v/ruke)](https://crates.io/crates/ruke)
+[![GitHub's license](https://img.shields.io/github/license/kauefraga/ruke)](https://github.com/kauefraga/ruke/blob/main/LICENSE)
+[![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kauefraga/ruke/main)](https://github.com/kauefraga/ruke)
 
 > A dead-simple automation tool. Inspired by Makefile and Justfile.
 
@@ -108,6 +108,13 @@ Feel free to contribute, create an issue to report a bug, suggest an API change,
 2. Clone your fork on your machine
 3. Make your changes, commit and push these
 4. Open a pull request (write a descriptive message about what you changed)
+
+### Contributors
+
+Thanks goes to these amazing people:
+
+[![notshwuy GitHub profile picture](https://github.com/notshwuy.png?size=50)](https://github.com/notshwuy)
+[![FelipeMCassiano GitHub profile picture](https://github.com/FelipeMCassiano.png?size=50)](https://github.com/FelipeMCassiano)
 
 ## 📝 License
 
