@@ -1,6 +1,6 @@
-pub mod add;
 pub mod init;
 pub mod list;
+pub mod new;
 pub mod remove;
 
 use clap::{arg, ArgMatches, Command};
@@ -18,7 +18,7 @@ pub fn root_command() -> Command {
         .arg(arg!(-q --quiet "Set run to be silent"))
         .subcommand(init::init_command())
         .subcommand(list::list_command())
-        .subcommand(add::add_command())
+        .subcommand(new::new_command())
         .subcommand(remove::remove_command())
 }
 

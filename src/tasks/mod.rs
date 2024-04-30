@@ -11,22 +11,27 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Task {
     pub name: String,
-    pub command: String,
+    pub commands: Option<Vec<String>>,
     pub arguments: Option<Vec<String>>,
 }
 
 impl fmt::Display for Task {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let arguments = match &self.arguments {
-            Some(args) => args.join(", "),
+            Some(arguments) => arguments.join(", "),
+            None => String::from("not defined").color(Colors::YellowFg),
+        };
+
+        let commands = match &self.commands {
+            Some(commands) => commands.join(", "),
             None => String::from("not defined").color(Colors::YellowFg),
         };
 
         write!(
             f,
-            "> {}\ncommand: {}\narguments: {}\n",
+            "> {}\ncommands: {}\narguments: {}\n",
             self.name.color(Colors::GreenFg),
-            self.command.color(Colors::GreenFg),
+            commands.color(Colors::GreenFg),
             arguments.color(Colors::GreenFg)
         )
     }
@@ -68,12 +73,8 @@ impl Rukefile {
         task.cloned()
     }
 
-    pub fn add_task(&mut self, name: String, command: String) -> Result<(), String> {
+    pub fn create_task(&mut self, name: String) -> Result<(), String> {
         if name.trim().is_empty() {
-            return Err("The task name must not be empty.".to_string());
-        }
-
-        if command.trim().is_empty() {
             return Err("The task name must not be empty.".to_string());
         }
 
@@ -85,7 +86,7 @@ impl Rukefile {
 
         let task = Task {
             name,
-            command,
+            commands: None,
             arguments: None,
         };
 
