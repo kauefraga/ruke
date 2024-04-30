@@ -19,8 +19,10 @@ pub fn init_handler(_matches: &ArgMatches) {
 
     let example_task = Task {
         name: "main".to_string(),
-        command: "echo Hello, Ruke!".to_string(),
-        arguments: None,
+        commands: Some(vec![
+            "echo Hello, Ruke!".to_string(),
+            "echo !ekuR ,ollhH".to_string(),
+        ]),
     };
 
     let rukefile = Rukefile {

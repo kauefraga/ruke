@@ -1,6 +1,7 @@
 pub mod add;
 pub mod init;
 pub mod list;
+pub mod new;
 pub mod remove;
 
 use clap::{arg, ArgMatches, Command};
@@ -11,14 +12,15 @@ use crate::tasks::{path::resolve_path, runner, Rukefile};
 pub fn root_command() -> Command {
     Command::new("ruke")
         .author("Kauê Fraga Rodrigues")
-        .version("0.1.3")
+        .version("0.1.4")
         .about("A dead-simple automation tool. Inspired by Makefile and Justfile.")
         .arg(arg!([target] "Set the target task").default_value("main"))
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .arg(arg!(-q --quiet "Set run to be silent"))
+        .subcommand(add::add_command())
         .subcommand(init::init_command())
         .subcommand(list::list_command())
-        .subcommand(add::add_command())
+        .subcommand(new::new_command())
         .subcommand(remove::remove_command())
 }
 

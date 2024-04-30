@@ -11,23 +11,21 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Task {
     pub name: String,
-    pub command: String,
-    pub arguments: Option<Vec<String>>,
+    pub commands: Option<Vec<String>>,
 }
 
 impl fmt::Display for Task {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let arguments = match &self.arguments {
-            Some(args) => args.join(", "),
+        let commands = match &self.commands {
+            Some(commands) => commands.join(", "),
             None => String::from("not defined").color(Colors::YellowFg),
         };
 
         write!(
             f,
-            "> {}\ncommand: {}\narguments: {}\n",
+            "> {}\ncommands: {}\n",
             self.name.color(Colors::GreenFg),
-            self.command.color(Colors::GreenFg),
-            arguments.color(Colors::GreenFg)
+            commands.color(Colors::GreenFg),
         )
     }
 }
@@ -68,12 +66,8 @@ impl Rukefile {
         task.cloned()
     }
 
-    pub fn add_task(&mut self, name: String, command: String) -> Result<(), String> {
+    pub fn create_task(&mut self, name: String) -> Result<(), String> {
         if name.trim().is_empty() {
-            return Err("The task name must not be empty.".to_string());
-        }
-
-        if command.trim().is_empty() {
             return Err("The task name must not be empty.".to_string());
         }
 
@@ -85,12 +79,43 @@ impl Rukefile {
 
         let task = Task {
             name,
-            command,
-            arguments: None,
+            commands: None,
         };
 
         self.tasks.push(task);
         Ok(())
+    }
+
+    pub fn add_command(&mut self, name: String, command: String) -> Result<(), String> {
+        let task = self.find_task(name.clone());
+        let task_index = self
+            .tasks
+            .iter()
+            .enumerate()
+            .find(|(_, task)| task.name.eq(&name))
+            .map(|(index, _)| index);
+
+        match task {
+            Some(task) => {
+                let commands = match task.commands {
+                    Some(mut commands) => {
+                        commands.push(command);
+                        Some(commands)
+                    }
+                    None => Some(vec![command]),
+                };
+
+                let task = Task { name, commands };
+
+                let task_index = task_index.unwrap();
+
+                self.tasks.remove(task_index);
+                self.tasks.push(task);
+
+                Ok(())
+            }
+            None => Err("The task does not exist.".to_string()),
+        }
     }
 
     pub fn remove_task(&mut self, name: String) -> Result<(), String> {
