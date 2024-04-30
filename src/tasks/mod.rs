@@ -94,6 +94,42 @@ impl Rukefile {
         Ok(())
     }
 
+    pub fn add_command(&mut self, name: String, command: String) -> Result<(), String> {
+        let task = self.find_task(name.clone());
+        let task_index = self
+            .tasks
+            .iter()
+            .enumerate()
+            .find(|(_, task)| task.name.eq(&name))
+            .map(|(index, _)| index);
+
+        match task {
+            Some(task) => {
+                let commands = match task.commands {
+                    Some(mut commands) => {
+                        commands.push(command);
+                        Some(commands)
+                    }
+                    None => Some(vec![command]),
+                };
+
+                let task = Task {
+                    name,
+                    commands,
+                    arguments: None,
+                };
+
+                let task_index = task_index.unwrap();
+
+                self.tasks.remove(task_index);
+                self.tasks.push(task);
+
+                Ok(())
+            }
+            None => Err("The task does not exist.".to_string()),
+        }
+    }
+
     pub fn remove_task(&mut self, name: String) -> Result<(), String> {
         let old_len = self.tasks.len();
         self.tasks.retain(|task| task.name != name);
