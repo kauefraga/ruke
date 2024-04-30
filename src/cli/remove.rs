@@ -1,7 +1,10 @@
+use std::path::PathBuf;
+
 use crate::tasks::{path::resolve_path, Rukefile};
 use clap::{arg, ArgMatches, Command};
 
 use colorized::{Color, Colors};
+use inquire::{required, Text};
 pub fn remove_command() -> Command {
     Command::new("remove")
         .about("Remove an existing task")
@@ -33,22 +36,39 @@ pub fn remove_handler(matches: &ArgMatches) {
     let task_name = matches.get_one::<String>("name");
 
     if task_name.is_none() {
-        eprintln!("{}", "The task must have a name.".color(Colors::RedFg));
-        println!("Try adding `{}`.", "--name task-name".color(Colors::BlueFg));
+        let task_name = Text::new("Task name:")
+            .with_validator(required!("The task's name is required"))
+            .prompt();
+        let task_name = task_name.unwrap();
+
+        if let Err(e) = remove_and_update_tasks(&mut rukefile, filepath, task_name) {
+            eprintln!("{}", e.color(Colors::RedFg));
+            return;
+        }
+
+        println!("{}", "Task removed successfully!".color(Colors::GreenFg));
         return;
     }
 
     let task_name = task_name.unwrap();
 
-    if let Err(e) = rukefile.remove_task(task_name.to_string()) {
+    if let Err(e) = remove_and_update_tasks(&mut rukefile, filepath, task_name.to_string()) {
         eprintln!("{}", e.color(Colors::RedFg));
         return;
     }
 
-    if let Err(e) = rukefile.update_rukefile(filepath) {
-        eprintln!("{:?}", e);
-        return;
-    }
-
     println!("{}", "Task removed successfully!".color(Colors::GreenFg));
+}
+
+fn remove_and_update_tasks(
+    rukefile: &mut Rukefile,
+    filepath: PathBuf,
+    task_name: String,
+) -> Result<(), String> {
+    rukefile.remove_task(task_name)?;
+
+    if let Err(e) = rukefile.update_rukefile(filepath) {
+        return Err(e.to_string());
+    }
+    Ok(())
 }

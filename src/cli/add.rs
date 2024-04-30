@@ -1,4 +1,7 @@
+use std::path::PathBuf;
+
 use clap::{arg, ArgAction, ArgMatches, Command};
+use inquire::{required, Text};
 
 use crate::tasks::{path::resolve_path, Rukefile};
 use colorized::{Color, Colors};
@@ -35,6 +38,28 @@ pub fn add_handler(matches: &ArgMatches) {
     let task_name = matches.get_one::<String>("name");
     let task_command = matches.get_one::<String>("command");
 
+    if task_name.is_none() && task_command.is_none() {
+        let task_name = Text::new("Task name:")
+            .with_validator(required!("The task's name is required"))
+            .prompt();
+
+        let task_command = Text::new("Task command:")
+            .with_validator(required!("The task's command is required"))
+            .prompt();
+
+        let task_name = task_name.unwrap();
+        let task_command = task_command.unwrap();
+
+        if let Err(e) =
+            add_task_and_update_rukefile(&mut rukefile, filepath, task_name, task_command)
+        {
+            return eprintln!("{}", e.color(Colors::RedFg));
+        };
+
+        println!("{}", "Task added successfully!".color(Colors::GreenFg));
+
+        return;
+    }
     if task_name.is_none() {
         eprintln!("{}", "The task must have a name.".color(Colors::RedFg));
         println!("Try adding `{}`.", "--name task-name".color(Colors::BlueFg));
@@ -53,15 +78,28 @@ pub fn add_handler(matches: &ArgMatches) {
     let task_name = task_name.unwrap();
     let task_command = task_command.unwrap();
 
-    if let Err(e) = rukefile.add_task(task_name.to_string(), task_command.to_string()) {
-        eprintln!("{}", e.color(Colors::RedFg));
-        return;
-    }
-
-    if let Err(e) = rukefile.update_rukefile(filepath) {
-        eprintln!("{:?}", e);
-        return;
+    if let Err(e) = add_task_and_update_rukefile(
+        &mut rukefile,
+        filepath,
+        task_name.to_string(),
+        task_command.to_string(),
+    ) {
+        return eprintln!("{}", e.color(Colors::RedFg));
     }
 
     println!("{}", "Task added successfully!".color(Colors::GreenFg));
+}
+
+fn add_task_and_update_rukefile(
+    rukefile: &mut Rukefile,
+    filepath: PathBuf,
+    task_name: String,
+    task_command: String,
+) -> Result<(), String> {
+    rukefile.add_task(task_name, task_command)?;
+
+    if let Err(e) = rukefile.update_rukefile(filepath) {
+        return Err(e.to_string());
+    }
+    Ok(())
 }
