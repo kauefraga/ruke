@@ -12,16 +12,10 @@ use serde::{Deserialize, Serialize};
 pub struct Task {
     pub name: String,
     pub commands: Option<Vec<String>>,
-    pub arguments: Option<Vec<String>>,
 }
 
 impl fmt::Display for Task {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let arguments = match &self.arguments {
-            Some(arguments) => arguments.join(", "),
-            None => String::from("not defined").color(Colors::YellowFg),
-        };
-
         let commands = match &self.commands {
             Some(commands) => commands.join(", "),
             None => String::from("not defined").color(Colors::YellowFg),
@@ -29,10 +23,9 @@ impl fmt::Display for Task {
 
         write!(
             f,
-            "> {}\ncommands: {}\narguments: {}\n",
+            "> {}\ncommands: {}\n",
             self.name.color(Colors::GreenFg),
             commands.color(Colors::GreenFg),
-            arguments.color(Colors::GreenFg)
         )
     }
 }
@@ -87,7 +80,6 @@ impl Rukefile {
         let task = Task {
             name,
             commands: None,
-            arguments: None,
         };
 
         self.tasks.push(task);
@@ -113,11 +105,7 @@ impl Rukefile {
                     None => Some(vec![command]),
                 };
 
-                let task = Task {
-                    name,
-                    commands,
-                    arguments: None,
-                };
+                let task = Task { name, commands };
 
                 let task_index = task_index.unwrap();
 

@@ -23,7 +23,6 @@ pub fn init_handler(_matches: &ArgMatches) {
             "echo Hello, Ruke!".to_string(),
             "echo !ekuR ,ollhH".to_string(),
         ]),
-        arguments: None,
     };
 
     let rukefile = Rukefile {

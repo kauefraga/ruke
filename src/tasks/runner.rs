@@ -8,17 +8,10 @@ pub fn run_task(task: Task, quiet: bool) {
     for command in commands {
         let command = command.split(' ').collect::<Vec<&str>>();
 
-        let positional_arguments = command[1..].iter().map(|argument| argument.to_string());
-
-        let arguments = match task.arguments.clone() {
-            Some(mut arguments) => {
-                positional_arguments
-                    .for_each(|positional_argument| arguments.push(positional_argument));
-
-                arguments
-            }
-            None => positional_arguments.collect::<Vec<String>>(),
-        };
+        let arguments = command[1..]
+            .iter()
+            .map(|argument| argument.to_string())
+            .collect::<Vec<String>>();
 
         let output = Command::new(command[0])
             .args(arguments)
