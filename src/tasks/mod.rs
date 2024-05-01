@@ -1,30 +1,27 @@
 pub mod path;
 pub mod runner;
 
-use core::fmt;
+use colorized::{Color, Colors};
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::{fs, path::PathBuf};
 use toml::ser::Error;
 
-use colorized::{Color, Colors};
-use serde::{Deserialize, Serialize};
-
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Task {
-    pub name: String,
     pub commands: Option<Vec<String>>,
 }
 
-impl fmt::Display for Task {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Task {
+    pub fn display(&self, name: &str) -> String {
         let commands = match &self.commands {
             Some(commands) => commands.join(", "),
             None => String::from("not defined").color(Colors::YellowFg),
         };
 
-        write!(
-            f,
+        format!(
             "> {}\ncommands: {}\n",
-            self.name.color(Colors::GreenFg),
+            name.color(Colors::GreenFg),
             commands.color(Colors::GreenFg),
         )
     }
@@ -32,7 +29,7 @@ impl fmt::Display for Task {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Rukefile {
-    pub tasks: Vec<Task>,
+    pub tasks: HashMap<String, Task>,
 }
 
 impl Rukefile {
@@ -61,9 +58,7 @@ impl Rukefile {
     }
 
     pub fn find_task(&self, name: String) -> Option<Task> {
-        let task = self.tasks.iter().find(|task| task.name.eq(&name));
-
-        task.cloned()
+        self.tasks.get(&name).cloned()
     }
 
     pub fn create_task(&mut self, name: String) -> Result<(), String> {
@@ -71,47 +66,23 @@ impl Rukefile {
             return Err("The task name must not be empty.".to_string());
         }
 
-        let task = self.find_task(name.clone());
-
-        if task.is_some() {
+        if self.tasks.contains_key(&name) {
             return Err("A task with the same name already exists.".to_string());
         }
 
-        let task = Task {
-            name,
-            commands: None,
-        };
+        let task = Task { commands: None };
 
-        self.tasks.push(task);
+        self.tasks.insert(name, task);
         Ok(())
     }
 
     pub fn add_command(&mut self, name: String, command: String) -> Result<(), String> {
-        let task = self.find_task(name.clone());
-        let task_index = self
-            .tasks
-            .iter()
-            .enumerate()
-            .find(|(_, task)| task.name.eq(&name))
-            .map(|(index, _)| index);
-
-        match task {
+        match self.tasks.get_mut(&name) {
             Some(task) => {
-                let commands = match task.commands {
-                    Some(mut commands) => {
-                        commands.push(command);
-                        Some(commands)
-                    }
-                    None => Some(vec![command]),
+                match &mut task.commands {
+                    Some(commands) => commands.push(command),
+                    None => task.commands = Some(vec![command]),
                 };
-
-                let task = Task { name, commands };
-
-                let task_index = task_index.unwrap();
-
-                self.tasks.remove(task_index);
-                self.tasks.push(task);
-
                 Ok(())
             }
             None => Err("The task does not exist.".to_string()),
@@ -119,11 +90,7 @@ impl Rukefile {
     }
 
     pub fn remove_task(&mut self, name: String) -> Result<(), String> {
-        let old_len = self.tasks.len();
-        self.tasks.retain(|task| task.name != name);
-        let new_len = self.tasks.len();
-
-        if old_len == new_len {
+        if self.tasks.remove(&name).is_none() {
             return Err(format!(
                 r#"Cannot remove "{}". This task doesn't exist."#,
                 name
