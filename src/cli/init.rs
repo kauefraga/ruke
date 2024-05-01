@@ -1,4 +1,4 @@
-use std::fs;
+use std::{collections::HashMap, fs};
 
 use clap::{ArgMatches, Command};
 use colorized::{Color, Colors};
@@ -18,17 +18,16 @@ pub fn init_handler(_matches: &ArgMatches) {
     }
 
     let example_task = Task {
-        name: "main".to_string(),
         commands: Some(vec![
             "echo Hello, Ruke!".to_string(),
             "echo !ekuR ,ollhH".to_string(),
         ]),
     };
 
-    let rukefile = Rukefile {
-        tasks: vec![example_task],
-    };
+    let mut tasks = HashMap::new();
+    tasks.insert("main".to_string(), example_task);
 
+    let rukefile = Rukefile { tasks };
     let rukefile = toml::to_string(&rukefile).unwrap();
 
     fs::write("Ruke.toml", &rukefile).unwrap();
