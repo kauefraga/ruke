@@ -34,13 +34,9 @@ pub fn list_handler(matches: &ArgMatches) {
     let tasks = rukefile.tasks.iter();
 
     if *matches.get_one::<bool>("all").unwrap_or(&false) {
-        tasks
-            .into_iter()
-            .for_each(|(name, task)| println!("{} ", task.display(name)));
+        tasks.for_each(|(name, task)| println!("{} ", task.display(name)));
         return;
     }
 
-    tasks
-        .into_iter()
-        .for_each(|(name, _)| println!("{}", name.color(Colors::GreenFg)))
+    tasks.for_each(|(name, _)| println!("{}", name.color(Colors::GreenFg)))
 }
