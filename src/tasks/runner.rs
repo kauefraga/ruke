@@ -1,5 +1,7 @@
 use std::process::Command;
 
+use colorized::{Color, Colors};
+
 use super::Task;
 
 pub fn run_task(task: Task, quiet: bool) {
@@ -13,6 +15,12 @@ pub fn run_task(task: Task, quiet: bool) {
             .map(|argument| argument.to_string())
             .collect::<Vec<String>>();
 
+        println!(
+            "{} {}",
+            "$".color(Colors::MagentaFg),
+            command.join(" ").color(Colors::BrightBlackFg)
+        );
+
         let output = Command::new(command[0])
             .args(arguments)
             .output()
@@ -23,6 +31,12 @@ pub fn run_task(task: Task, quiet: bool) {
         match is_success_and_not_quiet {
             true => {
                 let stdout = String::from_utf8_lossy(&output.stdout);
+
+                if stdout.is_empty() {
+                    println!("{}", "Task completed!".color(Colors::GreenFg));
+                    return;
+                }
+
                 println!("{}", stdout.trim_end());
             }
             false => {

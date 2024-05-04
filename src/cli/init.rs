@@ -39,7 +39,7 @@ pub fn init_handler(_matches: &ArgMatches) {
     println!("{}", &rukefile);
     println!(
         "Try `{}` and `{}`.\nHappy hacking!",
-        "ruke list".color(Colors::BlueFg),
-        "ruke add".color(Colors::BlueFg)
+        "ruke".color(Colors::BlueFg),
+        "ruke new".color(Colors::BlueFg)
     );
 }

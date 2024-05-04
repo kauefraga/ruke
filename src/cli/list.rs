@@ -22,7 +22,7 @@ pub fn list_handler(matches: &ArgMatches) {
         }
     };
 
-    let rukefile = Rukefile::new(filepath);
+    let rukefile = Rukefile::new(filepath.clone());
 
     if let Err(e) = rukefile {
         eprintln!("{}", e.color(Colors::RedFg));
@@ -32,11 +32,20 @@ pub fn list_handler(matches: &ArgMatches) {
     let rukefile = rukefile.unwrap();
 
     let tasks = rukefile.tasks.iter();
+    let list_all = matches.get_one("all").unwrap_or(&false);
 
-    if *matches.get_one::<bool>("all").unwrap_or(&false) {
+    if *list_all {
         tasks.for_each(|(name, task)| println!("{} ", task.display(name)));
         return;
     }
 
-    tasks.for_each(|(name, _)| println!("{}", name.color(Colors::GreenFg)))
+    println!("Ruke file tasks ({} found):", rukefile.tasks.len());
+
+    tasks.for_each(|(name, _)| {
+        println!(
+            "  {} ruke {}",
+            "$".color(Colors::BrightBlackFg),
+            name.color(Colors::BlueFg),
+        )
+    })
 }
