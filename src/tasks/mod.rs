@@ -14,16 +14,24 @@ pub struct Task {
 
 impl Task {
     pub fn display(&self, name: &str) -> String {
-        let commands = match &self.commands {
-            Some(commands) => commands.join(", "),
-            None => String::from("not defined").color(Colors::YellowFg),
-        };
+        let mut output = format!(
+            "  {} ruke {}\n",
+            "$".color(Colors::BrightBlackFg),
+            name.color(Colors::BlueFg),
+        );
 
-        format!(
-            "> {}\ncommands: {}\n",
-            name.color(Colors::GreenFg),
-            commands.color(Colors::GreenFg),
-        )
+        if self.commands.is_none() {
+            output.push_str(&"    not defined".color(Colors::BrightBlackFg));
+            return output;
+        }
+
+        let commands = self.commands.as_ref().unwrap();
+
+        for command in commands {
+            output.push_str(&format!("    {}\n", command.color(Colors::BrightBlackFg)));
+        }
+
+        output
     }
 }
 
