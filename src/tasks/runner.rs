@@ -5,7 +5,16 @@ use colorized::{Color, Colors};
 use super::Task;
 
 pub fn run_task(task: Task, quiet: bool) {
-    let commands = task.commands.expect("Required a command");
+    let commands = match task.commands {
+        Some(commands) => commands,
+        None => {
+            println!(
+                "{}",
+                "There are no commands to be run.".color(Colors::RedFg)
+            );
+            return;
+        }
+    };
 
     for command in commands {
         let command = command.split(' ').collect::<Vec<&str>>();
@@ -37,7 +46,7 @@ pub fn run_task(task: Task, quiet: bool) {
                     return;
                 }
 
-                println!("{}", stdout.trim_end());
+                println!("{}\n", stdout.trim_end());
             }
             false => {
                 let stderr = String::from_utf8_lossy(&output.stderr);
