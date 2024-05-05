@@ -12,7 +12,7 @@ use crate::tasks::{path::resolve_path, runner, Rukefile};
 pub fn root_command() -> Command {
     Command::new("ruke")
         .author("Kauê Fraga Rodrigues")
-        .version("0.1.6")
+        .version("0.1.7")
         .about("A dead-simple automation tool. Inspired by Makefile and Justfile.")
         .arg(arg!([target] "Set the target task").default_value("main"))
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
