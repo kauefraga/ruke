@@ -51,8 +51,9 @@ ruke
 ###### Available commands
 
 - `ruke init` - Create a `Ruke.toml` file with a task within
-- `ruke list` - List the name of existing tasks
-- `ruke add` - Add a new task
+- `ruke list` - List existing tasks
+- `ruke new` - Create a new task
+- `ruke add` - Add a command to an existing task
 - `ruke remove` - Remove an existing task
 - `ruke [target]` - Run a specific task
 
@@ -60,42 +61,50 @@ ruke
 
 - `ruke init`, `ruke i`
 - `ruke list`, `ruke ls`
+- `ruke new`, `ruke n`
 - `ruke add`, `ruke a`
 - `ruke remove`, `ruke rm`
 
 ###### Arguments and flags
 
-`ruke init` doesn't have arguments or flags.
-
-`ruke list` has the flags `-a --all` and `-f --file <FILE>`.
-
-`ruke add` has the flags `-n --name <NAME>`, `-c --command <COMMAND>` and `-f --file <FILE>`.
-
-`ruke remove` has the flags `-n --name <NAME>` and `-f --file <FILE>`.
-
-`ruke` has the optional argument `[target]` and the flags `-q --quiet` and `-f --file <FILE>`.
+| Command         | Flags                                                            |
+|-----------------|------------------------------------------------------------------|
+| `ruke init`     | doesn't have flags                                               |
+| `ruke list`     | `-m --minimal`, `-f --file <FILE>`                               |
+| `ruke new`      | `-n --name <NAME>`, `-f --file <FILE>`                           |
+| `ruke add`      | `-n --name <NAME>`, `-c --command <COMMAND>`, `-f --file <FILE>` |
+| `ruke remove`   | `-n --name <NAME>`, `-f --file <FILE>`                           |
+| `ruke [target]` | `-q --quiet`, `-f --file <FILE>`                                 |
 
 If you run `ruke --help` you'll see nice guide, and if you want help for a specific command, try `ruke help [command]`.
 
-### Mastering the Rukefile
+###### Examples
+
+`ruke list --minimal` will output less information (just tasks name) than `ruke list`.
+
+`ruke new -n "task-name"` will create a new task named "task-name".
+
+`ruke add -n "task-name" -c "echo command-to-be-executed"` will add the specified command in the task "task-name".
+
+`ruke remove -n "task-name" -f path/to/Ruke.toml` will remove the task "task-name" from the Ruke.toml at an unexpected directory.
+
+`ruke build` will run the task "build" and show you the outputs, while the `ruke build -q` will run silently.
+
+### Mastering the Ruke file
 
 I suggest you to use one of these two names: `Ruke.toml` or `Rukefile`, however, as long as you write a valid TOML, you can name the file whatever you want and pass it with the `-f --file <FILE>` flag.
 
 Look at [the full spec of TOML v1.0.0](https://toml.io/en/v1.0.0).
 
 ```toml
-[[tasks]]                       # defines a task
-name = "main"                   # defines an unique name to the task
-command = "go run cmd/main.go"  # defines a command to be executed
+[tasks.main]                       # defines a task with an unique name
+commands = ["go run cmd/main.go"]  # defines a command array to be executed sequentially
 
-[[tasks]]                       # defines other task
-name = "dev"
-command = "pnpm dev"
-arguments = ["--watch"]         # specifies arguments to the command
+[tasks.dev]
+commands = ["pnpm dev"]
 
-[[tasks]]                       # another one
-name = "build"
-command = "go build -o gorvus cmd/main.go"
+[tasks.build]
+commands = ["go build -o gorvus cmd/main.go", "./gorvus"]
 ```
 
 ## 💖 Contributing
