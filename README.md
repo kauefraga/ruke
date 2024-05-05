@@ -52,9 +52,9 @@ ruke
 
 - `ruke init` - Create a `Ruke.toml` file with a task within
 - `ruke list` - List existing tasks
-- `ruke new` - Create a new task
-- `ruke add` - Add a command to an existing task
-- `ruke remove` - Remove an existing task
+- `ruke new` - Create a new task (interactive mode)
+- `ruke add` - Add a command to an existing task (interactive mode)
+- `ruke remove` - Remove an existing task (interactive mode)
 - `ruke [target]` - Run a specific task
 
 ###### Aliases
