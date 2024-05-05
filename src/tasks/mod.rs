@@ -21,7 +21,7 @@ impl Task {
         );
 
         if self.commands.is_none() {
-            output.push_str(&"    not defined".color(Colors::BrightBlackFg));
+            output.push_str(&"    not defined\n".color(Colors::BrightBlackFg));
             return output;
         }
 
