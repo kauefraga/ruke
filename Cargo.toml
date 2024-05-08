@@ -9,7 +9,7 @@ repository = "https://github.com/kauefraga/ruke"
 homepage = "https://github.com/kauefraga/ruke?tab=readme-ov-file#ruke"
 
 [dependencies]
-clap = "4.5.4"
+clap = { version = "4.5.4", features = ["cargo"] }
 colorized = "1.0.0"
 inquire = "0.7.5"
 serde = { version = "1.0.198", features = ["derive"] }
