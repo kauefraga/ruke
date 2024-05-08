@@ -39,6 +39,11 @@ pub fn remove_handler(matches: &ArgMatches) {
         let task_name = Text::new("Task name:")
             .with_validator(required!("The task's name is required"))
             .prompt();
+        if let Err(e) = task_name {
+            println!("{}", format!("{}.", e).color(Colors::RedFg));
+            return;
+        }
+
         let task_name = task_name.unwrap();
 
         if let Err(e) = remove_and_update_tasks(&mut rukefile, filepath, task_name) {

@@ -40,6 +40,10 @@ pub fn new_handler(matches: &ArgMatches) {
         let task_name = Text::new("Task name:")
             .with_validator(required!("The task's name is required"))
             .prompt();
+        if let Err(e) = task_name {
+            println!("{}", format!("{}.", e).color(Colors::RedFg));
+            return;
+        }
 
         let task_name = task_name.unwrap();
 

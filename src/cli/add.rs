@@ -42,9 +42,19 @@ pub fn add_handler(matches: &ArgMatches) {
         let task_name = Text::new("Task name:")
             .with_validator(required!("The task's name is required"))
             .prompt();
+        if let Err(e) = task_name {
+            println!("{}", format!("{}.", e).color(Colors::RedFg));
+            return;
+        }
+
         let task_command = Text::new("Task command:")
             .with_validator(required!("The task's command is required"))
             .prompt();
+        if let Err(e) = task_name {
+            println!("{}", format!("{}.", e).color(Colors::RedFg));
+            return;
+        }
+
         let task_name = task_name.unwrap();
         let task_command = task_command.unwrap();
 
