@@ -1,6 +1,6 @@
 [package]
 name = "ruke"
-version = "0.1.9"
+version = "0.1.10"
 edition = "2021"
 description = "A dead-simple automation tool. Inspired by Makefile and Justfile."
 authors = ["Kauê Fraga Rodrigues <rkauefraga+ruke@gmail.com>"]
