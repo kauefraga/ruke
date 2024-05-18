@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use colorized::{Color, Colors};
 
@@ -24,7 +24,17 @@ pub fn run_task(task: Task, quiet: bool) {
             .map(|argument| argument.to_string())
             .collect::<Vec<String>>();
 
-        let output = Command::new(command[0]).args(arguments).output();
+        println!(
+            "{} {}",
+            "$".color(Colors::MagentaFg),
+            command.join(" ").color(Colors::BrightBlackFg)
+        );
+
+        let output = Command::new(command[0])
+            .args(arguments)
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .output();
 
         if output.is_err() {
             eprintln!(
@@ -42,12 +52,6 @@ pub fn run_task(task: Task, quiet: bool) {
             eprintln!("{}", stderr.trim_end());
             return;
         }
-
-        println!(
-            "{} {}",
-            "$".color(Colors::MagentaFg),
-            command.join(" ").color(Colors::BrightBlackFg)
-        );
 
         let stdout = String::from_utf8_lossy(&output.stdout);
 
