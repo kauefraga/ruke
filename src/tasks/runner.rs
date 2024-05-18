@@ -50,16 +50,17 @@ pub fn run_task(task: Task, quiet: bool) {
         if quiet || !output.status.success() {
             let stderr = String::from_utf8_lossy(&output.stderr);
             eprintln!("{}", stderr.trim_end());
-            return;
+            continue;
         }
 
         let stdout = String::from_utf8_lossy(&output.stdout);
 
         if stdout.is_empty() {
-            println!("{}", "Task completed!".color(Colors::GreenFg));
-            return;
+            continue;
         }
 
         println!("{}\n", stdout.trim_end());
     }
+
+    println!("{}", "Task completed!".color(Colors::GreenFg));
 }
