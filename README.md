@@ -1,7 +1,7 @@
 # Ruke
 
-[![GitHub top language](https://img.shields.io/github/languages/top/kauefraga/ruke)](https://github.com/kauefraga/ruke)
 [![Crates.io Version](https://img.shields.io/crates/v/ruke)](https://crates.io/crates/ruke)
+[![Crates.io Total Downloads](https://img.shields.io/crates/d/ruke)](https://crates.io/crates/ruke)
 [![GitHub's license](https://img.shields.io/github/license/kauefraga/ruke)](https://github.com/kauefraga/ruke/blob/main/LICENSE)
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/kauefraga/ruke/main)](https://github.com/kauefraga/ruke)
 
