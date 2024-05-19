@@ -10,6 +10,10 @@
 > [!TIP]
 > Looking for a Dockerfile/docker-compose.yml generator? [gorvus](https://github.com/FelipeMCassiano/gorvus) is waiting for you!
 
+<div align='center'>
+    <img align='center' src='.github/demo.gif' alt='a demonstration of ruke operations' />
+</div>
+
 ## 🔑 Key Features
 
 - Fancy interface: good experience, clear instructions and colored texts are what you get.
