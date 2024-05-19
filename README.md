@@ -18,13 +18,29 @@
 
 ## 🛠 Usage
 
-**Pre-requisites**: Rust and Cargo.
+ruke can be used in 2 easy steps:
+
+1. Install binary
+2. Configure your tasks
 
 ### Installation
+
+I highly recommend you to install ruke via Cargo.
 
 ```bash
 cargo install ruke
 ```
+
+If you don't have a Rust setup, you can install via the install script of your platform:
+
+<details>
+<summary>Linux / WSL</summary>
+
+> ```sh
+> curl -sSfL https://raw.githubusercontent.com/kauefraga/ruke/main/install.sh | sh
+> ```
+
+</details>
 
 ### Getting Started
 
