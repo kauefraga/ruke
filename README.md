@@ -38,10 +38,19 @@ cargo install ruke
 If you don't have a Rust setup, you can install via the install script of your platform:
 
 <details>
-<summary>Linux / WSL</summary>
+<summary>Linux / WSL and MacOS (darwin)</summary>
 
 > ```sh
 > curl -sSfL https://raw.githubusercontent.com/kauefraga/ruke/main/install.sh | sh
+> ```
+
+</details>
+
+<details>
+<summary>Windows</summary>
+
+> ```sh
+> Invoke-WebRequest https://raw.githubusercontent.com/kauefraga/ruke/main/install.ps1 | iex
 > ```
 
 </details>
