@@ -8,7 +8,7 @@ fi
 
 curl -OLs https://github.com/kauefraga/ruke/releases/latest/download/$binary
 
-tar -zxvf $binary
+tar -xzf $binary
 
 rm $binary
 
