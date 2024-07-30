@@ -21,7 +21,11 @@ pub fn add_handler(matches: &ArgMatches) {
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
         None => {
-            eprintln!("{}", "Ruke file not found.".color(Colors::RedFg));
+            eprintln!(
+                "{}",
+                "No ruke file found (looking for: Rukefile, rukefile, Ruke.toml, ruke.toml)."
+                    .color(Colors::RedFg)
+            );
             return;
         }
     };
