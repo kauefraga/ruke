@@ -1,4 +1,4 @@
-# Ruke
+# `ruke`
 
 [![Crates.io Version](https://img.shields.io/crates/v/ruke)](https://crates.io/crates/ruke)
 [![Crates.io Total Downloads](https://img.shields.io/crates/d/ruke)](https://crates.io/crates/ruke)
@@ -11,8 +11,12 @@
 > Looking for a Dockerfile/docker-compose.yml generator? [gorvus](https://github.com/FelipeMCassiano/gorvus) is waiting for you!
 
 <div align='center'>
-    <img align='center' src='.github/demo.gif' alt='a demonstration of ruke operations' />
+    <img src='.github/demo.gif' alt='a demonstration of ruke operations' />
 </div>
+
+<br />
+
+Ruke is a **command runner** designed to be easy to configure and even easier to use. Ruke leverages Rust and TOML to provide such smoothness.
 
 ## 🔑 Key Features
 
@@ -31,14 +35,14 @@ ruke can be used in 2 easy steps:
 
 I highly recommend you to install ruke via Cargo.
 
-```bash
+```sh
 cargo install ruke
 ```
 
 If you don't have a Rust setup, you can install via the install script of your platform:
 
 <details>
-<summary>Linux / WSL and MacOS (darwin)</summary>
+<summary>Linux / WSL and MacOS (Darwin)</summary>
 
 > ```sh
 > curl -sSfL https://raw.githubusercontent.com/kauefraga/ruke/main/install.sh | sh
@@ -61,7 +65,7 @@ First things first, you need to define your tasks in a `Ruke.toml` file.
 
 Hopefully, Ruke can help you, just run
 
-```bash
+```sh
 ruke init
 ```
 
@@ -69,7 +73,7 @@ With your `Ruke.toml` ready, now you need to run a specific task.
 
 The syntax for running a task is `ruke [target]` where target is the task you wanna execute. Try this:
 
-```bash
+```sh
 ruke
 ```
 
@@ -109,15 +113,39 @@ If you run `ruke --help` you'll see nice guide, and if you want help for a speci
 
 ###### Examples
 
-`ruke list --minimal` will output less information (just tasks name) than `ruke list`.
+Output less information (just tasks name) than `ruke list`.
 
-`ruke new -n "task-name"` will create a new task named "task-name".
+```sh
+ruke list --minimal
+```
 
-`ruke add -n "task-name" -c "echo command-to-be-executed"` will add the specified command in the task "task-name".
+Create a new task named "dev:f".
 
-`ruke remove -n "task-name" -f path/to/Ruke.toml` will remove the task "task-name" from the Ruke.toml at an unexpected directory.
+```sh
+ruke new -n "dev:f"
+```
 
-`ruke build` will run the task "build" and show you the outputs, while the `ruke build -q` will run silently.
+Add commands in the task "dev:f".
+
+```sh
+ruke add -n "dev:f" -c "cd apps/frontend"
+ruke add -n "dev:f" -c "bun dev"
+# ruke dev:f
+```
+
+Remove the task "dev:f" from the Ruke.toml at an unexpected directory.
+
+```sh
+ruke remove -n "dev:f" -f path/to/Ruke.toml
+```
+
+Run the task "def:f" and show you the outputs.
+
+```sh
+ruke dev:f
+```
+
+Or `ruke dev:f -q` if you don't want to see outputs (`-q --quiet`).
 
 ### Mastering the Ruke file
 
@@ -129,8 +157,11 @@ Look at [the full spec of TOML v1.0.0](https://toml.io/en/v1.0.0).
 [tasks.main]                       # defines a task with an unique name
 commands = ["go run cmd/main.go"]  # defines a command array to be executed sequentially
 
-[tasks.dev]
-commands = ["pnpm dev"]
+[tasks."dev:f"]
+commands = ["cd apps/frontend", "bun dev"]
+
+[tasks."start:b"]
+commands = ["cd apps/backend", "bun run build", "bun start"]
 
 [tasks.build]
 commands = ["go build -o gorvus cmd/main.go", "./gorvus"]
