@@ -14,6 +14,7 @@ pub fn root_command() -> Command {
         .arg(arg!([target] "Set the target task").default_value("main"))
         .arg(arg!(-f --file <FILE> "Set a Ruke.toml or Rukefile to use"))
         .arg(arg!(-q --quiet "Set run to be silent"))
+        .arg(arg!(-p --parallel "Set the run mode to parallel"))
         .subcommand(add::add_command())
         .subcommand(init::init_command())
         .subcommand(list::list_command())
@@ -25,6 +26,7 @@ pub fn root_handler(matches: ArgMatches) {
     let target = matches.get_one::<String>("target").unwrap();
     let filepath = matches.get_one::<String>("file");
     let quiet = matches.get_one::<bool>("quiet").unwrap();
+    let parallel = matches.get_one::<bool>("parallel").unwrap();
 
     let filepath = match resolve_path(filepath) {
         Some(resolved_path) => resolved_path,
@@ -55,7 +57,7 @@ pub fn root_handler(matches: ArgMatches) {
     let task = rukefile.find_task(target.clone());
 
     match task {
-        Some(task) => runner::run_task(task, *quiet),
+        Some(task) => runner::run_task(task, *quiet, *parallel),
         None => eprintln!(
             "{}",
             format!(r#"There is no "{}" task to run."#, target).color(Colors::RedFg)
