@@ -55,7 +55,7 @@ pub fn root_handler(matches: ArgMatches) {
     let task = rukefile.find_task(target.clone());
 
     match task {
-        Some(task) => runner::run_task(task, *quiet),
+        Some(task) => runner::run_task(task, *quiet, true),
         None => eprintln!(
             "{}",
             format!(r#"There is no "{}" task to run."#, target).color(Colors::RedFg)
